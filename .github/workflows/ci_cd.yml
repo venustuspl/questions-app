@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    working-directory: 100ideas
+
 jobs:
   test_and_build:
 
@@ -24,4 +28,4 @@ jobs:
       with:
         java-version: 11
     - name: Build with Maven
-      run: mvn -B package --file 100ideas/pom.xml
+      run: mvn -B package --file pom.xml
