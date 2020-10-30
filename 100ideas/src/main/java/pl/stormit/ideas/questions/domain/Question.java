@@ -14,7 +14,7 @@ public class Question {
 
     @Id
     @GeneratedValue
-    @OneToMany(mappedBy = "?")
+    @OneToMany(mappedBy = "id")
     private UUID id;
     private String body;
     private Integer categoryId;
