@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public class Question {
     private UUID id;
     private String body;
     private Integer categoryId;
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
 
     public Question() {
     }
