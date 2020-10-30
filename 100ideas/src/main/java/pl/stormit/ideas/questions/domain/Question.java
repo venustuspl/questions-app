@@ -1,16 +1,20 @@
 package pl.stormit.ideas.questions.domain;
 
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
 public class Question {
 
     @Id
     @GeneratedValue
+    @OneToMany(mappedBy = "?")
     private UUID id;
     private String body;
     private Integer categoryId;
