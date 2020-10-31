@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
@@ -12,7 +13,7 @@ public class Answer {
     @GeneratedValue
     private UUID id;
     private String body;
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
 
     public UUID getId() {
         return id;
@@ -30,11 +31,11 @@ public class Answer {
         this.body = body;
     }
 
-    public LocalDateTime getCreationDate() {
+    public OffsetDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(OffsetDateTime creationDate) {
         this.creationDate = creationDate;
     }
 }
