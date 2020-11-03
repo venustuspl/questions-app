@@ -1,35 +1,31 @@
 package pl.stormit.ideas.categories.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Objects;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
+@Table(name="categories")
 public class Category {
 
     @Id
     @GeneratedValue
-
-    private uuid id;
+    @OneToMany(mappedBy = "id")
+    private UUID id;
     private String name;
-    private uuid parent;
+    private UUID parent;
 
-    @ManyToOne (mappedBy ="id");
 
-    public Category(uuid id, String name, uuid parent) {
+    public Category(UUID id, String name, UUID parent) {
         this.id = id;
         this.name = name;
         this.parent = parent;
     }
 
-    public uuid getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(uuid id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -41,11 +37,11 @@ public class Category {
         this.name = name;
     }
 
-    public uuid getParent() {
+    public UUID getParent() {
         return parent;
     }
 
-    public void setParent(uuid parent) {
+    public void setParent(UUID parent) {
         this.parent = parent;
     }
 
