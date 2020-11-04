@@ -1,4 +1,4 @@
-package pl.stormit.ideas.service.domain;
+package pl.stormit.ideas.validation;
 
 import java.util.List;
 

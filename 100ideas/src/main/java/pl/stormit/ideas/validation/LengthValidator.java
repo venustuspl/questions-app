@@ -1,4 +1,4 @@
-package pl.stormit.ideas.service.domain;
+package pl.stormit.ideas.validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ class LengthValidator implements Validator {
     public List<String> validate(String input) {
         List<String> errors = new ArrayList<>();
 
-        if (input == null || input.length() < MIN_LENGTH) {
+        if (input == null || input.length() <= MIN_LENGTH) {
             errors.add("Too short");
         }
         else if (input.length() > MAX_LENGTH) {
