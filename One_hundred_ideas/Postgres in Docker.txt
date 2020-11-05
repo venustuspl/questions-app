@@ -1,0 +1,46 @@
+Download and install Docker Desktop:
+If you don't have Docker Desktop installation on your machine go to https://www.docker.com/get-started, choose one of the version depending on your operating system, download and install .
+
+The first thing you need to do is to download Postgres image into your local machine. So open the terminal and enter a command:
+$docker pull postgres
+
+On page https://hub.docker.com/_/postgres you can find diffrent tags with diffrent versions. If you don't indicate which version you choose the version with tag latest will be downoladed.
+
+How to use new image:
+In first step enter a command:
+$docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=secret -d postgres
+
+Now you have to check if the container is running, so use a command:
+$docker ps
+
+The status should be: "Up"
+The the next step is interacted with already running container and getting a bash shell in the container, so use a command:
+$docker exec -it postgres bash
+
+Now you are inside of the container, so enter:
+# psql -U postgres
+
+If you see "postgres=#" it means that you are inside of postgres.
+ 
+How to open exited container:
+Enter a command:
+$docker start postgres
+
+and check the status using:
+$ docker ps
+
+If the status is "Up" you can interact with container. 
+
+Database administration tool Dbeaver:
+DBeaver is an universal database management tool for everyone who needs to work with data in a professional way. Go to https://dbeaver.io/ , download the version depending on your operating system and install it.
+Now you have to connect with the database, so click New Database Connection and choose PostgreSQL. In the next step enter the data below:
+
+dbname = "one_hundred_ideas"
+user = "postgres"
+password = "secret"
+host = "localhost:5432"
+dbDriver("PostgreSQL")
+
+Check if you got the connection using Test Connection.
+
+
