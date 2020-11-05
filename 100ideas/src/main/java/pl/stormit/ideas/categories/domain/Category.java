@@ -9,7 +9,6 @@ public class Category {
 
     @Id
     @GeneratedValue
-    @OneToMany(mappedBy = "id")
     private UUID id;
     private String name;
     private UUID parent;
