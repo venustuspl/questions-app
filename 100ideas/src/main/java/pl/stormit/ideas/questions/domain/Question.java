@@ -15,7 +15,6 @@ public class Question {
     @GeneratedValue
     private UUID id;
     private String body;
-    private Integer categoryId;
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
     @OneToMany
@@ -38,14 +37,6 @@ public class Question {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
     }
 
     public Category getCategory() {
