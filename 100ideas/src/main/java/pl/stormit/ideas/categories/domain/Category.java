@@ -15,7 +15,7 @@ public class Category {
     private UUID id;
     private String name;
     private UUID parent;
-    @ManyToOne
+    @OneToMany
     private List<Question> questions;
 
 
