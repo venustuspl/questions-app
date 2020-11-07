@@ -14,6 +14,9 @@ public class Category {
     private UUID parent;
 
 
+    public Category() {
+    }
+
     public Category(UUID id, String name, UUID parent) {
         this.id = id;
         this.name = name;
