@@ -1,10 +1,13 @@
 package pl.stormit.ideas.categories.domain;
 
+import pl.stormit.ideas.questions.domain.Question;
+
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="categories")
+@Table(name = "categories")
 public class Category {
 
     @Id
@@ -12,6 +15,8 @@ public class Category {
     private UUID id;
     private String name;
     private UUID parent;
+    @ManyToOne
+    private List<Question> questions;
 
 
     public Category() {
