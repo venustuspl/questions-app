@@ -3,7 +3,7 @@ package pl.stormit.ideas.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-class ValidationManager {
+public class ValidationManager {
     static List<Validator> validators;
 
     public ValidationManager() {
