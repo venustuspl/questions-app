@@ -1,18 +1,24 @@
 package pl.stormit.ideas.answers.domain;
 
+import pl.stormit.ideas.questions.domain.Question;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.ManyToOne;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
 public class Answer {
+
     @Id
     @GeneratedValue
     private UUID id;
     private String body;
-    private LocalDateTime creationDate;
+    private OffsetDateTime creationDate;
+    @ManyToOne
+    private Question question;
 
     public UUID getId() {
         return id;
@@ -30,11 +36,19 @@ public class Answer {
         this.body = body;
     }
 
-    public LocalDateTime getCreationDate() {
+    public OffsetDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDateTime creationDate) {
+    public void setCreationDate(OffsetDateTime creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 }

@@ -1,15 +1,14 @@
 package pl.stormit.ideas.questions.domain;
 
+import pl.stormit.ideas.answers.domain.Answer;
+import pl.stormit.ideas.categories.domain.Category;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.time.OffsetDateTime;
-import java.util.Objects;
+import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "Questions")
 public class Question {
 
     @Id
@@ -18,7 +17,10 @@ public class Question {
     private UUID id;
     private String body;
     private Integer categoryId;
-    private OffsetDateTime creationDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+    @OneToMany
+    private List<Answer> answers;
 
     public Question() {
     }
@@ -47,37 +49,19 @@ public class Question {
         this.categoryId = categoryId;
     }
 
-    public OffsetDateTime getCreationDate() {
-        return creationDate;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCreationDate(OffsetDateTime creationDate) {
-        this.creationDate = creationDate;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Question question = (Question) o;
-        return Objects.equals(id, question.id) &&
-                Objects.equals(body, question.body) &&
-                Objects.equals(categoryId, question.categoryId) &&
-                Objects.equals(creationDate, question.creationDate);
+    public List<Answer> getAnswers() {
+        return answers;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, body, categoryId, creationDate);
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", body='" + body + '\'' +
-                ", categoryId=" + categoryId +
-                ", creationDate=" + creationDate +
-                '}';
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 }
