@@ -13,5 +13,5 @@ should contain the latest code.
 #### When you get all approvals
 - [ ] **Make sure your branch is up to date.** 
 Master branch could change meantime.
-- [ ] **Marge your branch with master.**
-- [ ] **If merge is successful, delete your branch on GitHub.** 
+- [ ] **Merge your branch with master.**
+
