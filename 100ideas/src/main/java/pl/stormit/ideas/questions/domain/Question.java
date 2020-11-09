@@ -16,8 +16,9 @@ public class Question {
     private UUID id;
     private String body;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
     private Category category;
-    @OneToMany
+    @OneToMany(mappedBy = "question")
     private List<Answer> answers;
 
     public Question() {
