@@ -1,7 +1,5 @@
 package pl.stormit.ideas.answers.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.stormit.ideas.answers.domain.Answer;
@@ -15,7 +13,6 @@ import java.util.UUID;
 
 @Service
 public class AnswerService {
-    private final Logger logger = LoggerFactory.getLogger(AnswerService.class);
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
 
@@ -27,23 +24,19 @@ public class AnswerService {
     @Transactional
     public Answer addAnswer(Answer answer) {
         if (answer.getId() != null) {
-            logger.error("The Answer to add cannot contain an ID");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The Answer to add cannot contain an ID");
         }
         if (answer.getQuestion() == null) {
-            logger.error("The Answer to add must contain the Question object");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The Answer to add must contain the Question object");
         }
         UUID questionId = answer.getQuestion().getId();
         if (questionId == null) {
-            logger.error("The Answer to add must contain the Question object with ID");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The Answer to add must contain the Question object with ID");
         }
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> {
-                    logger.error("The Question object with id {} does not exist in DB", questionId);
-                    return new NoSuchElementException();
-                });
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Question object with id " + questionId + " does not exist in DB")
+                );
         answer.setQuestion(question);
         if (answer.getCreationDate() == null) {
             answer.setCreationDate(OffsetDateTime.now());
