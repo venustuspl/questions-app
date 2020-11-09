@@ -1,5 +1,6 @@
 package pl.stormit.ideas.answers.service;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,8 +36,10 @@ class AnswerServiceIT {
         //then
         assertEquals("Test body", savedAnswer.getBody());
         assertNotNull(savedAnswer.getId());
+    }
 
-        //clear
+    @AfterEach
+    void clear() {
         answerRepository.deleteAll();
         questionRepository.deleteAll();
     }
