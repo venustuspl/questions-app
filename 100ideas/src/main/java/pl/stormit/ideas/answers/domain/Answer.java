@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -17,7 +19,9 @@ public class Answer {
     private UUID id;
     private String body;
     private OffsetDateTime creationDate;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
     private Question question;
 
     public UUID getId() {
