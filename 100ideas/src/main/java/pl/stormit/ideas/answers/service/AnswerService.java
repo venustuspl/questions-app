@@ -7,12 +7,14 @@ import pl.stormit.ideas.answers.repository.AnswerRepository;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
 public class AnswerService {
+    public static final long NUMBER_OF_SECONDS_TO_UPDATE = 60L;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
 
@@ -42,6 +44,26 @@ public class AnswerService {
             answer.setCreationDate(OffsetDateTime.now());
         }
         return answerRepository.save(answer);
+    }
+
+
+    @Transactional
+    public Answer updateAnswer(Answer answerToUpdate) {
+        UUID answerToUpdatedId = answerToUpdate.getId();
+        if (answerToUpdatedId == null) {
+            throw new IllegalArgumentException("The Answer to add must contain an ID");
+        }
+        Answer answer = answerRepository.findById(answerToUpdatedId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Answer object with id " + answerToUpdatedId + " does not exist in DB")
+                );
+        OffsetDateTime creationDate = answer.getCreationDate();
+        long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
+        if (secondsSinceCreation > NUMBER_OF_SECONDS_TO_UPDATE) {
+            throw new IllegalArgumentException("The Answer is too old to be updated");
+        }
+        answer.setBody(answerToUpdate.getBody());
+        return answer;
     }
 
 }
