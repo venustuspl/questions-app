@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Service
 public class AnswerService {
-    public static final long NUMBER_OF_SECONDS_TO_UPDATE = 60L;
+    public static final long SECONDS_FOR_AN_UPDATE = 60L;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
 
@@ -59,7 +59,7 @@ public class AnswerService {
                 );
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
-        if (secondsSinceCreation > NUMBER_OF_SECONDS_TO_UPDATE) {
+        if (secondsSinceCreation > SECONDS_FOR_AN_UPDATE) {
             throw new IllegalArgumentException("The Answer is too old to be updated");
         }
         answer.setBody(answerToUpdate.getBody());
