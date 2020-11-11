@@ -12,8 +12,6 @@ import pl.stormit.ideas.questions.repository.QuestionRepository;
 import java.time.OffsetDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @SpringBootTest
@@ -37,8 +35,8 @@ class AnswerServiceIT {
         Answer savedAnswer = answerService.addAnswer(answerToSave);
 
         //then
-        assertEquals("Test body", savedAnswer.getBody());
-        assertNotNull(savedAnswer.getId());
+        assertThat(savedAnswer.getBody()).isEqualTo("Test body");
+        assertThat(savedAnswer.getId()).isNotNull();
     }
 
     @Test
