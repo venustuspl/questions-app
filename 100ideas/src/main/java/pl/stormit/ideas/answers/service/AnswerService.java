@@ -66,4 +66,22 @@ public class AnswerService {
         return answer;
     }
 
+    @Transactional
+    public void deleteAnswer(Answer answerToDelete) {
+        UUID answerToDeleteId = answerToDelete.getId();
+        if (answerToDeleteId == null) {
+            throw new IllegalArgumentException("The Answer to add must contain an ID");
+        }
+        Answer answer = answerRepository.findById(answerToDeleteId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Answer object with id " + answerToDeleteId + " does not exist in DB")
+                );
+        OffsetDateTime creationDate = answer.getCreationDate();
+        long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
+        if (secondsSinceCreation > SECONDS_FOR_AN_UPDATE) {
+            throw new IllegalArgumentException("The Answer is too old to be deleted");
+        }
+        answerRepository.delete(answer);
+    }
+
 }
