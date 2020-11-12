@@ -59,14 +59,14 @@ class AnswerServiceITTest {
     void shouldDeleteAnswerFromDB() {
         //given
         Answer savedAnswer = answerRepository.save(getAnswerToSave());
-        List<Answer> savedAnswers = answerRepository.findAll();
+        List<Answer> savedAnswers = (List<Answer>) answerRepository.findAll();
         assertThat(savedAnswers.size()).isOne();
 
         //when
         answerService.deleteAnswer(savedAnswer);
 
         //then
-        savedAnswers = answerRepository.findAll();
+        savedAnswers = (List<Answer>) answerRepository.findAll();
         assertThat(savedAnswers.size()).isZero();
         List<Question> savedQuestions = (List<Question>) questionRepository.findAll();
         assertThat(savedQuestions.size()).isOne();
