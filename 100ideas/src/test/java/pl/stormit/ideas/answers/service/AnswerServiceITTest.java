@@ -10,6 +10,7 @@ import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,6 +53,23 @@ class AnswerServiceITTest {
         Answer updatedAnswer = answerRepository.findById(savedAnswer.getId()).orElseThrow();
         assertThat(updatedAnswer.getBody()).isEqualTo("Updated body");
         assertThat(updatedAnswer.getId()).isEqualTo(savedAnswer.getId());
+    }
+
+    @Test
+    void shouldDeleteAnswerFromDB() {
+        //given
+        Answer savedAnswer = answerRepository.save(getAnswerToSave());
+        List<Answer> savedAnswers = answerRepository.findAll();
+        assertThat(savedAnswers.size()).isOne();
+
+        //when
+        answerService.deleteAnswer(savedAnswer);
+
+        //then
+        savedAnswers = answerRepository.findAll();
+        assertThat(savedAnswers.size()).isZero();
+        List<Question> savedQuestions = (List<Question>) questionRepository.findAll();
+        assertThat(savedQuestions.size()).isOne();
     }
 
     @AfterEach
