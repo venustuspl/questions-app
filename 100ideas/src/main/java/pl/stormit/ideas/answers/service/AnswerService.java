@@ -9,6 +9,7 @@ import pl.stormit.ideas.questions.repository.QuestionRepository;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -84,4 +85,18 @@ public class AnswerService {
         answerRepository.delete(answer);
     }
 
+    public Answer getAnswerById(UUID answerId) {
+        return answerRepository.findById(answerId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Answer object with id " + answerId + " does not exist in DB")
+                );
+    }
+
+    public List<Answer> getAllAnswersByQuestionId(UUID questionId) {
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Question object with id " + questionId + " does not exist in DB")
+                );
+        return answerRepository.findAllByQuestionId(question.getId());
+    }
 }
