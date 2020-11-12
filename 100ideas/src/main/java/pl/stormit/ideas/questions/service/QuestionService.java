@@ -27,15 +27,12 @@ public class QuestionService {
         if (question.getId() != null) {
             throw new IllegalArgumentException("The Question cannot contain an ID");
         }
-
         if (!questionRepository.findAllByBody(question.getBody()).isEmpty()) {
             throw new IllegalArgumentException("The Question with this body: " + question.getBody() + " exist in DB ");
         }
-
         if (question.getCreationDate() == null) {
             question.setCreationDate(OffsetDateTime.now());
         }
-
         return questionRepository.save(question);
     }
 
