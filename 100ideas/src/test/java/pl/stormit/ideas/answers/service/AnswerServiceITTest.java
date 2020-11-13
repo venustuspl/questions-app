@@ -9,12 +9,13 @@ import pl.stormit.ideas.answers.repository.AnswerRepository;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.time.OffsetDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-class AnswerServiceIT {
+class AnswerServiceITTest {
 
     @Autowired
     private AnswerService answerService;
@@ -34,8 +35,23 @@ class AnswerServiceIT {
         Answer savedAnswer = answerService.addAnswer(answerToSave);
 
         //then
-        assertEquals("Test body", savedAnswer.getBody());
-        assertNotNull(savedAnswer.getId());
+        assertThat(savedAnswer.getBody()).isEqualTo("Test body");
+        assertThat(savedAnswer.getId()).isNotNull();
+    }
+
+    @Test
+    void shouldUpdateAnswerInDB() {
+        //given
+        Answer savedAnswer = answerRepository.save(getAnswerToSave());
+        savedAnswer.setBody("Updated body");
+
+        //when
+        answerService.updateAnswer(savedAnswer);
+
+        //then
+        Answer updatedAnswer = answerRepository.findById(savedAnswer.getId()).orElseThrow();
+        assertThat(updatedAnswer.getBody()).isEqualTo("Updated body");
+        assertThat(updatedAnswer.getId()).isEqualTo(savedAnswer.getId());
     }
 
     @AfterEach
@@ -49,6 +65,7 @@ class AnswerServiceIT {
         Answer answer = new Answer();
         answer.setQuestion(question);
         answer.setBody("Test body");
+        answer.setCreationDate(OffsetDateTime.now());
         return answer;
     }
 }

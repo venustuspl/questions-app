@@ -28,6 +28,7 @@ class QuestionServiceIT {
     void shouldSaveQuestionInDB() {
         //given
         Question questionToSave = new Question();
+
         questionToSave.setName("Test name");
 
         //when
@@ -65,3 +66,4 @@ class QuestionServiceIT {
         return question;
     }
 }
+
