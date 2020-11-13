@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 public class AnswerService {
-    public static final long SECONDS_FOR_AN_UPDATE = 60L;
+    private static final long TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE = 60L;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
 
@@ -60,7 +60,7 @@ public class AnswerService {
                 );
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
-        if (secondsSinceCreation > SECONDS_FOR_AN_UPDATE) {
+        if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
             throw new IllegalArgumentException("The Answer is too old to be updated");
         }
         answer.setBody(answerToUpdate.getBody());
@@ -79,7 +79,7 @@ public class AnswerService {
                 );
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
-        if (secondsSinceCreation > SECONDS_FOR_AN_UPDATE) {
+        if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
             throw new IllegalArgumentException("The Answer is too old to be deleted");
         }
         answerRepository.delete(answer);
