@@ -13,21 +13,26 @@ public class Category {
     @Id
     @GeneratedValue
     private UUID id;
+
     private String name;
-    private UUID parent;
-    @OneToMany
+
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    private Category parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Category> children;
+
+    @OneToMany(mappedBy = "category")
     private List<Question> questions;
-
-
+    
     public Category() {
     }
-
-    public Category(UUID id, String name, UUID parent) {
+    public Category(UUID id, String name, Category parent) {
         this.id = id;
         this.name = name;
         this.parent = parent;
     }
-
     public UUID getId() {
         return id;
     }
@@ -44,13 +49,11 @@ public class Category {
         this.name = name;
     }
 
-    public UUID getParent() {
+    public Category getParent() {
         return parent;
     }
 
-    public void setParent(UUID parent) {
+    public void setParent(Category parent) {
         this.parent = parent;
     }
-
-
 }
