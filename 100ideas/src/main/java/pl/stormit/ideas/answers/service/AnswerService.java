@@ -27,14 +27,14 @@ public class AnswerService {
     @Transactional
     public Answer addAnswer(Answer answer) {
         if (answer.getId() != null) {
-            throw new IllegalArgumentException("The Answer to add cannot contain an ID");
+            throw new IllegalStateException("The Answer to add cannot contain an ID");
         }
         if (answer.getQuestion() == null) {
-            throw new IllegalArgumentException("The Answer to add must contain the Question object");
+            throw new IllegalStateException("The Answer to add must contain the Question object");
         }
         UUID questionId = answer.getQuestion().getId();
         if (questionId == null) {
-            throw new IllegalArgumentException("The Answer to add must contain the Question object with ID");
+            throw new IllegalStateException("The Answer to add must contain the Question object with ID");
         }
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() ->
@@ -52,7 +52,7 @@ public class AnswerService {
     public Answer updateAnswer(Answer answerToUpdate) {
         UUID answerToUpdatedId = answerToUpdate.getId();
         if (answerToUpdatedId == null) {
-            throw new IllegalArgumentException("The Answer to add must contain an ID");
+            throw new IllegalStateException("The Answer to add must contain an ID");
         }
         Answer answer = answerRepository.findById(answerToUpdatedId)
                 .orElseThrow(() ->
@@ -61,7 +61,7 @@ public class AnswerService {
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
         if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
-            throw new IllegalArgumentException("The Answer is too old to be updated");
+            throw new IllegalStateException("The Answer is too old to be updated");
         }
         answer.setBody(answerToUpdate.getBody());
         return answer;
@@ -71,7 +71,7 @@ public class AnswerService {
     public void deleteAnswer(Answer answerToDelete) {
         UUID answerToDeleteId = answerToDelete.getId();
         if (answerToDeleteId == null) {
-            throw new IllegalArgumentException("The Answer to add must contain an ID");
+            throw new IllegalStateException("The Answer to add must contain an ID");
         }
         Answer answer = answerRepository.findById(answerToDeleteId)
                 .orElseThrow(() ->
@@ -80,7 +80,7 @@ public class AnswerService {
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
         if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
-            throw new IllegalArgumentException("The Answer is too old to be deleted");
+            throw new IllegalStateException("The Answer is too old to be deleted");
         }
         answerRepository.delete(answer);
     }
