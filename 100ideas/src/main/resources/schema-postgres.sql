@@ -12,7 +12,7 @@ CREATE TABLE categories (
 
 CREATE TABLE questions (
 	id uuid NOT NULL DEFAULT uuid_generate_v4(),
-	body text NULL,
+	name text NULL,
 	category_id uuid NOT NULL,
 	creation_date timestamptz(0) NULL DEFAULT (CURRENT_DATE + CURRENT_TIME),
     PRIMARY KEY (id),

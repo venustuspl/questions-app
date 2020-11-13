@@ -15,7 +15,7 @@ public class Question {
     @GeneratedValue
     private UUID id;
 
-    private String body;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -37,12 +37,12 @@ public class Question {
         this.id = id;
     }
 
-    public String getBody() {
-        return body;
+    public String getName() {
+        return name;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Category getCategory() {

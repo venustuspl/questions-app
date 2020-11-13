@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface QuestionRepository extends CrudRepository<Question, UUID> {
     List<Question> findAllById(UUID questionId);
 
-    List<Question> findAllByBody(String body);
+    List<Question> findAllByName(String name);
 
+    long countByName(String name);
 }
