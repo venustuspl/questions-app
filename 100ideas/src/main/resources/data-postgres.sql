@@ -3,7 +3,7 @@ INSERT INTO categories (id,name,parent) VALUES('64497d0a-3e32-418e-a9fd-4851a13c
 INSERT INTO categories (id,name) VALUES ('1167c74f-6259-4002-97c5-0cb42854941e','kosmetyki');
 
 
-INSERT INTO questions (id,body,category_id,creation_date) VALUES
+INSERT INTO questions (id,name,category_id,creation_date) VALUES
 ('84e1c33a-7ab0-4a17-b5a2-d23a592b46ca','Jaką komedię polecacie na weekend','64497d0a-3e32-418e-a9fd-4851a13cf144','2020-10-25 00:00:00.000')
 ,('e659d5b0-1ae6-4551-bb01-74c3db5d54c8','Książka na pochmurne dni','f2d8e16d-56c5-48fc-8603-2de2f9f4a119','2020-10-25 00:00:00.000')
 ,('3ade5e97-4264-4a67-8123-5027bda974fa','Jaki krem odmładzający polecasz?','1167c74f-6259-4002-97c5-0cb42854941e','2020-10-30 22:50:08.000');

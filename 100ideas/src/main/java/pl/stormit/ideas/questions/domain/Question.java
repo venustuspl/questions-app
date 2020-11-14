@@ -4,23 +4,27 @@ import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.categories.domain.Category;
 
 import javax.persistence.*;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "Questions")
 public class Question {
-
     @Id
     @GeneratedValue
     private UUID id;
-    private String body;
+
+    private String name;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    private OffsetDateTime creationDate;
+
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
-
 
     public Question() {
     }
@@ -33,12 +37,12 @@ public class Question {
         this.id = id;
     }
 
-    public String getBody() {
-        return body;
+    public String getName() {
+        return name;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Category getCategory() {
@@ -55,5 +59,13 @@ public class Question {
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
+    }
+
+    public OffsetDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(OffsetDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 }
