@@ -7,15 +7,11 @@ import java.util.List;
 
 @Service
 public class ValidationManager {
-    static List<Validator> validators;
+    private List<Validator> validators = new ArrayList<>();
 
     public ValidationManager() {
         validators.add(new LengthValidator());
         validators.add(new ForbiddenWordsValidator());
-    }
-
-    public ValidationManager(List<Validator> validators) {
-        this.validators.addAll(validators);
     }
 
     public ValidationResult validate(ValidationInput input) {
