@@ -18,29 +18,20 @@ public class AnswerService {
     private static final long TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE = 60L;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
+    private final AnswerStateValidator answerStateValidator;
 
-    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository) {
+    public AnswerService(
+            AnswerRepository answerRepository,
+            QuestionRepository questionRepository,
+            AnswerStateValidator answerStateValidator) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
+        this.answerStateValidator = answerStateValidator;
     }
 
     @Transactional
     public Answer addAnswer(Answer answer) {
-        if (answer.getId() != null) {
-            throw new IllegalStateException("The Answer to add cannot contain an ID");
-        }
-        if (answer.getQuestion() == null) {
-            throw new IllegalStateException("The Answer to add must contain the Question object");
-        }
-        UUID questionId = answer.getQuestion().getId();
-        if (questionId == null) {
-            throw new IllegalStateException("The Answer to add must contain the Question object with ID");
-        }
-        Question question = questionRepository.findById(questionId)
-                .orElseThrow(() ->
-                        new NoSuchElementException("The Question object with id " + questionId + " does not exist in DB")
-                );
-        answer.setQuestion(question);
+        answerStateValidator.validateForAdding(answer);
         if (answer.getCreationDate() == null) {
             answer.setCreationDate(OffsetDateTime.now());
         }
@@ -50,13 +41,10 @@ public class AnswerService {
 
     @Transactional
     public Answer updateAnswer(Answer answerToUpdate) {
-        UUID answerToUpdatedId = answerToUpdate.getId();
-        if (answerToUpdatedId == null) {
-            throw new IllegalStateException("The Answer to add must contain an ID");
-        }
-        Answer answer = answerRepository.findById(answerToUpdatedId)
+        answerStateValidator.validateForUpdating(answerToUpdate);
+        Answer answer = answerRepository.findById(answerToUpdate.getId())
                 .orElseThrow(() ->
-                        new NoSuchElementException("The Answer object with id " + answerToUpdatedId + " does not exist in DB")
+                        new NoSuchElementException("The Answer object with id " + answerToUpdate.getId() + " does not exist in DB")
                 );
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
@@ -69,13 +57,10 @@ public class AnswerService {
 
     @Transactional
     public void deleteAnswer(Answer answerToDelete) {
-        UUID answerToDeleteId = answerToDelete.getId();
-        if (answerToDeleteId == null) {
-            throw new IllegalStateException("The Answer to add must contain an ID");
-        }
-        Answer answer = answerRepository.findById(answerToDeleteId)
+        answerStateValidator.validateForDeleting(answerToDelete);
+        Answer answer = answerRepository.findById(answerToDelete.getId())
                 .orElseThrow(() ->
-                        new NoSuchElementException("The Answer object with id " + answerToDeleteId + " does not exist in DB")
+                        new NoSuchElementException("The Answer object with id " + answerToDelete.getId() + " does not exist in DB")
                 );
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
