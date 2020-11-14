@@ -1,8 +1,11 @@
 package pl.stormit.ideas.validation;
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ValidationManager {
     static List<Validator> validators;
 
@@ -22,8 +25,6 @@ public class ValidationManager {
             errors.addAll(validator.validate(input.getTextToValidate()));
         });
 
-        ValidationResult result = new ValidationResult(errors.isEmpty(), errors);
-
-        return result;
+       return new ValidationResult(errors.isEmpty(), errors);
     }
 }
