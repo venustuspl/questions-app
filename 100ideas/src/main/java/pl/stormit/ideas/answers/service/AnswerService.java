@@ -42,10 +42,7 @@ public class AnswerService {
     @Transactional
     public Answer updateAnswer(Answer answerToUpdate) {
         answerStateValidator.validateForUpdating(answerToUpdate);
-        Answer answer = answerRepository.findById(answerToUpdate.getId())
-                .orElseThrow(() ->
-                        new NoSuchElementException("The Answer object with id " + answerToUpdate.getId() + " does not exist in DB")
-                );
+        Answer answer = getAnswerById(answerToUpdate.getId());
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
         if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
@@ -58,10 +55,7 @@ public class AnswerService {
     @Transactional
     public void deleteAnswer(Answer answerToDelete) {
         answerStateValidator.validateForDeleting(answerToDelete);
-        Answer answer = answerRepository.findById(answerToDelete.getId())
-                .orElseThrow(() ->
-                        new NoSuchElementException("The Answer object with id " + answerToDelete.getId() + " does not exist in DB")
-                );
+        Answer answer = getAnswerById(answerToDelete.getId());
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
         if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
