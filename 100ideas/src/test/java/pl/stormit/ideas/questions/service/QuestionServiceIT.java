@@ -96,6 +96,5 @@ class QuestionServiceIT {
         assertThat(question.getName()).isEqualTo("Test name");
         assertThat(question.getId()).isEqualTo(savedQuestion.getId());
     }
-
 }
 
