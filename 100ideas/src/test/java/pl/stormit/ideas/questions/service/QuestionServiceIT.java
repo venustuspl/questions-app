@@ -9,6 +9,7 @@ import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,8 +25,21 @@ class QuestionServiceIT {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @BeforeEach
+    @AfterEach
+    void clear() {
+        questionRepository.deleteAll();
+    }
+
+    private Question getQuestionToSave() {
+        Question question = questionRepository.save(new Question());
+        question.setName("Test name");
+        question.setCreationDate(OffsetDateTime.now());
+        return question;
+    }
+
     @Test
-    void shouldSaveQuestionInDB() {
+    void shouldAddQuestionIntoDB() {
         //given
         Question questionToSave = new Question();
 
@@ -54,16 +68,34 @@ class QuestionServiceIT {
         assertThat(updatedQuestion.getId()).isEqualTo(savedQuestion.getId());
     }
 
-    @BeforeEach
-    @AfterEach
-    void clear() {
-        questionRepository.deleteAll();
+    @Test
+    void shouldDeleteQuestionFromDB() {
+        //given
+        Question savedQuestion = questionRepository.save(getQuestionToSave());
+        List<Question> savedQuestions = (List<Question>) questionRepository.findAll();
+        assertThat(savedQuestions.size()).isOne();
+
+        //when
+        questionService.deleteQuestion(savedQuestion);
+
+        //then
+        assertThat(((List<Question>) questionRepository.findAll()).size()).isZero();
     }
 
-    private Question getQuestionToSave() {
-        Question question = questionRepository.save(new Question());
-        question.setCreationDate(OffsetDateTime.now());
-        return question;
+    @Test
+    void shouldGetQuestionById() {
+        //given
+        Question savedQuestion = questionRepository.save(getQuestionToSave());
+        List<Question> savedQuestions = (List<Question>) questionRepository.findAll();
+        assertThat(savedQuestions.size()).isOne();
+
+        //when
+        Question question = questionService.getQuestionById(savedQuestion.getId());
+
+        //then
+        assertThat(question.getName()).isEqualTo("Test name");
+        assertThat(question.getId()).isEqualTo(savedQuestion.getId());
     }
+
 }
 
