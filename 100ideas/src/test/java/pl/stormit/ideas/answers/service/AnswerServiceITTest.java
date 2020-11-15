@@ -10,6 +10,9 @@ import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -54,6 +57,56 @@ class AnswerServiceITTest {
         assertThat(updatedAnswer.getId()).isEqualTo(savedAnswer.getId());
     }
 
+    @Test
+    void shouldDeleteAnswerFromDB() {
+        //given
+        Answer savedAnswer = answerRepository.save(getAnswerToSave());
+        List<Answer> savedAnswers = (List<Answer>) answerRepository.findAll();
+        assertThat(savedAnswers.size()).isOne();
+
+        //when
+        answerService.deleteAnswer(savedAnswer);
+
+        //then
+        savedAnswers = (List<Answer>) answerRepository.findAll();
+        assertThat(savedAnswers.size()).isZero();
+        List<Question> savedQuestions = (List<Question>) questionRepository.findAll();
+        assertThat(savedQuestions.size()).isOne();
+    }
+
+    @Test
+    void shouldGetAnswerById() {
+        //given
+        Answer savedAnswer = answerRepository.save(getAnswerToSave());
+        List<Answer> savedAnswers = (List<Answer>) answerRepository.findAll();
+        assertThat(savedAnswers.size()).isOne();
+
+        //when
+        Answer answer = answerService.getAnswerById(savedAnswer.getId());
+
+        //then
+        assertThat(answer.getBody()).isEqualTo("Test body");
+        assertThat(answer.getId()).isEqualTo(savedAnswer.getId());
+    }
+
+    @Test
+    void shouldAnswersByQuestionId() {
+        //given
+        List<Answer> answersToSave = getAnswersToSave();
+        answerRepository.saveAll(answersToSave);
+        Answer answerToSave = getAnswerToSave();
+        answerRepository.save(answerToSave);
+        List<Answer> savedAnswers = (List<Answer>) answerRepository.findAll();
+        assertThat(savedAnswers.size()).isEqualTo(4);
+        UUID questionId = answersToSave.get(0).getQuestion().getId();
+
+        //when
+        List<Answer> answers = answerService.getAllAnswersByQuestionId(questionId);
+
+        //then
+        assertThat(answers.size()).isEqualTo(3);
+    }
+
     @AfterEach
     void clear() {
         answerRepository.deleteAll();
@@ -67,5 +120,20 @@ class AnswerServiceITTest {
         answer.setBody("Test body");
         answer.setCreationDate(OffsetDateTime.now());
         return answer;
+    }
+
+    private List<Answer> getAnswersToSave() {
+        Question question = questionRepository.save(new Question());
+        List<Answer> answers = new ArrayList<>();
+        Answer answerOne = new Answer();
+        answerOne.setQuestion(question);
+        answers.add(answerOne);
+        Answer answerTwo = new Answer();
+        answerTwo.setQuestion(question);
+        answers.add(answerTwo);
+        Answer answerThree = new Answer();
+        answerThree.setQuestion(question);
+        answers.add(answerThree);
+        return answers;
     }
 }

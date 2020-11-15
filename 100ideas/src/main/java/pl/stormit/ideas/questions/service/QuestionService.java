@@ -25,10 +25,10 @@ public class QuestionService {
     @Transactional
     public Question addQuestion(Question question) {
         if (question.getId() != null) {
-            throw new IllegalArgumentException("The Question cannot contain an ID");
+            throw new IllegalStateException("The Question cannot contain an ID");
         }
-        if (!questionRepository.findAllByBody(question.getBody()).isEmpty()) {
-            throw new IllegalArgumentException("The Question with this body: " + question.getBody() + " exist in DB ");
+        if (questionRepository.countByName(question.getName()) > 0) {
+            throw new IllegalStateException("The Question with this body: " + question.getName() + " exist in DB ");
         }
         if (question.getCreationDate() == null) {
             question.setCreationDate(OffsetDateTime.now());
@@ -41,7 +41,7 @@ public class QuestionService {
     public Question updateQuestion(Question questionToUpdate) {
         UUID questionToUpdatedId = questionToUpdate.getId();
         if (questionToUpdatedId == null) {
-            throw new IllegalArgumentException("The Question must contain an ID");
+            throw new IllegalStateException("The Question must contain an ID");
         }
         Question question = questionRepository.findById(questionToUpdatedId)
                 .orElseThrow(() ->
@@ -50,9 +50,9 @@ public class QuestionService {
         OffsetDateTime creationDate = question.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
         if (secondsSinceCreation > SECONDS_FOR_AN_UPDATE) {
-            throw new IllegalArgumentException("The Question is too old to be updated");
+            throw new IllegalStateException("The Question is too old to be updated");
         }
-        question.setBody(questionToUpdate.getBody());
+        question.setName(questionToUpdate.getName());
         return question;
     }
 
@@ -60,7 +60,7 @@ public class QuestionService {
     public void deleteQuestion(Question questionToDelete) {
         UUID questionToDeleteId = questionToDelete.getId();
         if (questionToDeleteId == null) {
-            throw new IllegalArgumentException("The Question to delete must contain an ID");
+            throw new IllegalStateException("The Question to delete must contain an ID");
         }
         Question question = questionRepository.findById(questionToDeleteId)
                 .orElseThrow(() ->
@@ -69,7 +69,7 @@ public class QuestionService {
         OffsetDateTime creationDate = question.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
         if (secondsSinceCreation > SECONDS_FOR_AN_UPDATE) {
-            throw new IllegalArgumentException("The Question is too old to be deleted");
+            throw new IllegalStateException("The Question is too old to be deleted");
         }
         questionRepository.delete(question);
     }
