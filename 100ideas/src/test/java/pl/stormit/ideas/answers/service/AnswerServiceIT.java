@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
-class AnswerServiceITTest {
+class AnswerServiceIT {
 
     @Autowired
     private AnswerService answerService;
