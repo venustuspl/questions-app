@@ -34,7 +34,20 @@ class AnswerStateValidatorTest {
         //when
         //then
         assertThatIllegalStateException()
-                .isThrownBy(() -> answerStateValidator.validateForAdding(answer));
+                .isThrownBy(() -> answerStateValidator.validateForAdding(answer))
+                .withMessage("The Answer to add cannot contain an ID");
+    }
+
+    @Test
+    void shouldThrowExceptionDuringAddingWhenAnswerHasNoQuestion() {
+        //given
+        Answer answer = new Answer();
+
+        //when
+        //then
+        assertThatIllegalStateException()
+                .isThrownBy(() -> answerStateValidator.validateForAdding(answer))
+                .withMessage("The Answer to add must contain the Question object");
     }
 
     @Test
@@ -46,7 +59,8 @@ class AnswerStateValidatorTest {
         //when
         //then
         assertThatIllegalStateException()
-                .isThrownBy(() -> answerStateValidator.validateForAdding(answer));
+                .isThrownBy(() -> answerStateValidator.validateForAdding(answer))
+                .withMessage("The Answer to add must contain the Question object with ID");
     }
 
     @Test
@@ -58,7 +72,8 @@ class AnswerStateValidatorTest {
         //when
         //then
         assertThatExceptionOfType(NoSuchElementException.class)
-                .isThrownBy(() -> answerStateValidator.validateForAdding(answer));
+                .isThrownBy(() -> answerStateValidator.validateForAdding(answer))
+                .withMessageContaining("The Question object with id ");
     }
 
     @Test
@@ -71,17 +86,6 @@ class AnswerStateValidatorTest {
         //then
         assertThatCode(() -> answerStateValidator.validateForAdding(answer))
                 .doesNotThrowAnyException();
-    }
-
-    @Test
-    void shouldThrowExceptionDuringAddingWhenAnswerHasNoQuestion() {
-        //given
-        Answer answer = new Answer();
-
-        //when
-        //then
-        assertThatIllegalStateException()
-                .isThrownBy(() -> answerStateValidator.validateForAdding(answer));
     }
 
     @Test
@@ -103,7 +107,8 @@ class AnswerStateValidatorTest {
         //when
         //then
         assertThatIllegalStateException()
-                .isThrownBy(() -> answerStateValidator.validateForUpdating(answer));
+                .isThrownBy(() -> answerStateValidator.validateForUpdating(answer))
+                .withMessage("The Answer to update must contain an ID");
     }
 
     @Test
@@ -125,7 +130,8 @@ class AnswerStateValidatorTest {
         //when
         //then
         assertThatIllegalStateException()
-                .isThrownBy(() -> answerStateValidator.validateForDeleting(answer));
+                .isThrownBy(() -> answerStateValidator.validateForDeleting(answer))
+                .withMessage("The Answer to delete must contain an ID");
     }
 
     private Answer getAnswerWithId() {
