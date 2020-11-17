@@ -12,8 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -32,7 +31,7 @@ class QuestionServiceIT {
     }
 
     private Question getQuestionToSave() {
-        Question question = questionRepository.save(new Question());
+        Question question = new Question();
         question.setName("Test name");
         question.setCreationDate(OffsetDateTime.now());
         return question;
@@ -79,7 +78,7 @@ class QuestionServiceIT {
         questionService.deleteQuestion(savedQuestion);
 
         //then
-        assertThat(((List<Question>) questionRepository.findAll()).size()).isZero();
+        assertTrue(((List<Question>) questionRepository.findAll()).isEmpty());
     }
 
     @Test
