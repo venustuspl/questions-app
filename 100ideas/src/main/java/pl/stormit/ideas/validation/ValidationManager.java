@@ -1,17 +1,18 @@
 package pl.stormit.ideas.validation;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 public class ValidationManager {
-    private List<Validator> validators = new ArrayList<>();
+    private List<Validator> validators;
 
-    public ValidationManager() {
-        validators.add(new LengthValidator());
-        validators.add(new ForbiddenWordsValidator());
+    @Autowired
+    public ValidationManager(List<Validator> validators) {
+        this.validators = validators;
     }
 
     public ValidationResult validate(ValidationInput input) {

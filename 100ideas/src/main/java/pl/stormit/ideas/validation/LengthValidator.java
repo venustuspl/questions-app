@@ -1,8 +1,11 @@
 package pl.stormit.ideas.validation;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 class LengthValidator implements Validator {
     int MIN_LENGTH = 1;
     int MAX_LENGTH = 100;
