@@ -96,4 +96,3 @@ class QuestionServiceIT {
         assertThat(question.getId()).isEqualTo(savedQuestion.getId());
     }
 }
-
