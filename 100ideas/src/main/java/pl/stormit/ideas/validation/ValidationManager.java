@@ -9,8 +9,7 @@ import java.util.List;
 @Component
 public class ValidationManager {
     private List<Validator> validators;
-
-    @Autowired
+    
     public ValidationManager(List<Validator> validators) {
         this.validators = validators;
     }
