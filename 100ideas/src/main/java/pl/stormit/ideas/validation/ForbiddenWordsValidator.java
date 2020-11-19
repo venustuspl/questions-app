@@ -1,8 +1,11 @@
 package pl.stormit.ideas.validation;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 class ForbiddenWordsValidator implements Validator {
 
     @Override

@@ -1,18 +1,17 @@
 package pl.stormit.ideas.validation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ValidationManager {
-    static List<Validator> validators;
-
-    public ValidationManager() {
-        validators.add(new LengthValidator());
-        validators.add(new ForbiddenWordsValidator());
-    }
-
+    private List<Validator> validators;
+    
     public ValidationManager(List<Validator> validators) {
-        this.validators.addAll(validators);
+        this.validators = validators;
     }
 
     public ValidationResult validate(ValidationInput input) {
@@ -22,8 +21,6 @@ public class ValidationManager {
             errors.addAll(validator.validate(input.getTextToValidate()));
         });
 
-        ValidationResult result = new ValidationResult(errors.isEmpty(), errors);
-
-        return result;
+       return new ValidationResult(errors.isEmpty(), errors);
     }
 }
