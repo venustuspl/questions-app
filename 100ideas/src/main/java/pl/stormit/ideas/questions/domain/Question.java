@@ -2,6 +2,7 @@ package pl.stormit.ideas.questions.domain;
 
 import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.categories.domain.Category;
+import pl.stormit.ideas.validation.ValidationInput;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Questions")
-public class Question {
+public class Question implements ValidationInput {
     @Id
     @GeneratedValue
     private UUID id;
@@ -67,5 +68,10 @@ public class Question {
 
     public void setCreationDate(OffsetDateTime creationDate) {
         this.creationDate = creationDate;
+    }
+
+    @Override
+    public String getTextToValidate() {
+        return this.name;
     }
 }
