@@ -1,6 +1,7 @@
 package pl.stormit.ideas.answers.domain;
 
 import pl.stormit.ideas.questions.domain.Question;
+import pl.stormit.ideas.validation.ValidationInput;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-public class Answer {
+public class Answer implements ValidationInput {
 
     @Id
     @GeneratedValue
@@ -54,5 +55,10 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    @Override
+    public String getTextToValidate() {
+        return body;
     }
 }
