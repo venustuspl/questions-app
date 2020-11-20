@@ -18,20 +18,20 @@ public class AnswerService {
     private static final long TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE = 60L;
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
-    private final AnswerStateValidator answerStateValidator;
+    private final AnswerValidator answerValidator;
 
     public AnswerService(
             AnswerRepository answerRepository,
             QuestionRepository questionRepository,
-            AnswerStateValidator answerStateValidator) {
+            AnswerValidator answerValidator) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
-        this.answerStateValidator = answerStateValidator;
+        this.answerValidator = answerValidator;
     }
 
     @Transactional
     public Answer addAnswer(Answer answer) {
-        answerStateValidator.validateForAdding(answer);
+        answerValidator.validateForAdding(answer);
         if (answer.getCreationDate() == null) {
             answer.setCreationDate(OffsetDateTime.now());
         }
@@ -41,7 +41,7 @@ public class AnswerService {
 
     @Transactional
     public Answer updateAnswer(Answer answerToUpdate) {
-        answerStateValidator.validateForUpdating(answerToUpdate);
+        answerValidator.validateForUpdating(answerToUpdate);
         Answer answer = getAnswerById(answerToUpdate.getId());
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
@@ -54,7 +54,7 @@ public class AnswerService {
 
     @Transactional
     public void deleteAnswer(Answer answerToDelete) {
-        answerStateValidator.validateForDeleting(answerToDelete);
+        answerValidator.validateForDeleting(answerToDelete);
         Answer answer = getAnswerById(answerToDelete.getId());
         OffsetDateTime creationDate = answer.getCreationDate();
         long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
