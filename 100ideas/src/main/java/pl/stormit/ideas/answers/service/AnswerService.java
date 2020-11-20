@@ -43,11 +43,7 @@ public class AnswerService {
     public Answer updateAnswer(Answer answerToUpdate) {
         answerValidator.validateForUpdating(answerToUpdate);
         Answer answer = getAnswerById(answerToUpdate.getId());
-        OffsetDateTime creationDate = answer.getCreationDate();
-        long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
-        if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
-            throw new IllegalStateException("The Answer is too old to be updated");
-        }
+        checkIfAnswerIsNotTooOld(answer, "The Answer is too old to be updated");
         answer.setBody(answerToUpdate.getBody());
         return answer;
     }
@@ -56,11 +52,7 @@ public class AnswerService {
     public void deleteAnswer(Answer answerToDelete) {
         answerValidator.validateForDeleting(answerToDelete);
         Answer answer = getAnswerById(answerToDelete.getId());
-        OffsetDateTime creationDate = answer.getCreationDate();
-        long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
-        if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
-            throw new IllegalStateException("The Answer is too old to be deleted");
-        }
+        checkIfAnswerIsNotTooOld(answer, "The Answer is too old to be deleted");
         answerRepository.delete(answer);
     }
 
@@ -77,5 +69,13 @@ public class AnswerService {
                         new NoSuchElementException("The Question object with id " + questionId + " does not exist in DB")
                 );
         return answerRepository.findAllByQuestionId(question.getId());
+    }
+
+    private void checkIfAnswerIsNotTooOld(Answer answer, String message) {
+        OffsetDateTime creationDate = answer.getCreationDate();
+        long secondsSinceCreation = Duration.between(creationDate, OffsetDateTime.now()).getSeconds();
+        if (secondsSinceCreation > TIME_IN_SECONDS_SINCE_CREATION_THAT_ALLOWS_AN_UPDATE) {
+            throw new IllegalArgumentException(message);
+        }
     }
 }
