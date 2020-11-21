@@ -4,42 +4,29 @@ import org.springframework.stereotype.Service;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 import pl.stormit.ideas.validation.ValidationManager;
-import pl.stormit.ideas.validation.ValidationResult;
 
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
     public static final long SECONDS_FOR_AN_UPDATE = 60L;
     private final QuestionRepository questionRepository;
     private final ValidationManager validationManager;
+    private final QuestionStateValidator questionStateValidator;
 
-    public QuestionService(QuestionRepository questionRepository, ValidationManager validationManager) {
+    public QuestionService(QuestionRepository questionRepository, ValidationManager validationManager, QuestionStateValidator questionStateValidator) {
         this.questionRepository = questionRepository;
         this.validationManager = validationManager;
+        this.questionStateValidator = questionStateValidator;
     }
 
     @Transactional
     public Question addQuestion(Question question) {
-        if (question.getId() != null) {
-            throw new IllegalStateException("The Question cannot contain an ID");
-        }
-
-        ValidationResult validationResult = validationManager.validate(question);
-
-        if (!validationResult.isValid()) {
-            throw new IllegalArgumentException(buildValidationErrorMessage(validationResult.getError()));
-        }
-
-        if (questionRepository.countByName(question.getName()) > 0) {
-            throw new IllegalStateException("The Question with this name: " + question.getName() + " exist in DB ");
-        }
+        questionStateValidator.validateForAdding(question);
 
         if (question.getCreationDate() == null) {
             question.setCreationDate(OffsetDateTime.now());
@@ -53,20 +40,12 @@ public class QuestionService {
     public Question updateQuestion(Question questionToUpdate) {
         UUID questionToUpdatedId = questionToUpdate.getId();
 
-        if (questionToUpdatedId == null) {
-            throw new IllegalStateException("The Question must contain an ID");
-        }
+        questionStateValidator.validateForUpdating(questionToUpdate);
 
         Question question = questionRepository.findById(questionToUpdatedId)
                 .orElseThrow(() ->
                         new NoSuchElementException("The Question object with id " + questionToUpdatedId + " does not exist in DB")
                 );
-
-        ValidationResult validationResult = validationManager.validate(questionToUpdate);
-
-        if (!validationResult.isValid()) {
-            throw new IllegalArgumentException(buildValidationErrorMessage(validationResult.getError()));
-        }
 
         OffsetDateTime creationDate = question.getCreationDate();
 
@@ -85,9 +64,7 @@ public class QuestionService {
     public void deleteQuestion(Question questionToDelete) {
         UUID questionToDeleteId = questionToDelete.getId();
 
-        if (questionToDeleteId == null) {
-            throw new IllegalStateException("The Question to delete must contain an ID");
-        }
+        questionStateValidator.validateForDeleting(questionToDelete);
 
         Question question = questionRepository.findById(questionToDeleteId)
                 .orElseThrow(() ->
@@ -110,19 +87,6 @@ public class QuestionService {
                 .orElseThrow(() ->
                         new NoSuchElementException("The Question object with id " + QuestionId + " does not exist in DB")
                 );
-    }
-
-    public List<Question> getAllQuestionsByQuestionId(UUID questionId) {
-        Question question = questionRepository.findById(questionId)
-                .orElseThrow(() ->
-                        new NoSuchElementException("The Question object with id " + questionId + " does not exist in DB")
-                );
-
-        return questionRepository.findAllById(question.getId());
-    }
-
-    public String buildValidationErrorMessage(List<String> errors) {
-        return errors.stream().collect(Collectors.joining(",", "Qustion is not valid because of: ", " ."));
     }
 
 }
