@@ -61,8 +61,7 @@ class AnswerServiceTest {
     @Test
     void shouldThrowExceptionDuringUpdatingWhenMoreThanSixtySecondsHavePassedSinceCreation() {
         //given
-        Answer answer = new Answer();
-        answer.setCreationDate(OffsetDateTime.now().minusSeconds(75));
+        Answer answer = getAnswerWithSecondsSinceCreation(75L);
         when(answerRepository.findById(any())).thenReturn(Optional.of(answer));
 
         //when
@@ -75,8 +74,7 @@ class AnswerServiceTest {
     @Test
     void shouldNotThrowExceptionDuringUpdatingWhenLessThanSixtySecondsHavePassedSinceCreation() {
         //given
-        Answer answer = new Answer();
-        answer.setCreationDate(OffsetDateTime.now().minusSeconds(55));
+        Answer answer = getAnswerWithSecondsSinceCreation(55L);
         when(answerRepository.findById(any())).thenReturn(Optional.of(answer));
 
         //when
@@ -88,8 +86,7 @@ class AnswerServiceTest {
     @Test
     void shouldNotThrowExceptionDuringUpdatingWhenSixtySecondsHavePassedSinceCreation() {
         //given
-        Answer answer = new Answer();
-        answer.setCreationDate(OffsetDateTime.now().minusSeconds(60));
+        Answer answer = getAnswerWithSecondsSinceCreation(60L);
         when(answerRepository.findById(any())).thenReturn(Optional.of(answer));
 
         //when
@@ -101,8 +98,7 @@ class AnswerServiceTest {
     @Test
     void shouldThrowExceptionDuringDeletingWhenMoreThanSixtySecondsHavePassedSinceCreation() {
         //given
-        Answer answer = new Answer();
-        answer.setCreationDate(OffsetDateTime.now().minusSeconds(75));
+        Answer answer = getAnswerWithSecondsSinceCreation(75L);
         when(answerRepository.findById(any())).thenReturn(Optional.of(answer));
 
         //when
@@ -115,8 +111,7 @@ class AnswerServiceTest {
     @Test
     void shouldNotThrowExceptionDuringDeletingWhenLessThanSixtySecondsHavePassedSinceCreation() {
         //given
-        Answer answer = new Answer();
-        answer.setCreationDate(OffsetDateTime.now().minusSeconds(55));
+        Answer answer = getAnswerWithSecondsSinceCreation(55L);
         when(answerRepository.findById(any())).thenReturn(Optional.of(answer));
 
         //when
@@ -128,13 +123,18 @@ class AnswerServiceTest {
     @Test
     void shouldNotThrowExceptionDuringDeletingWhenSixtySecondsHavePassedSinceCreation() {
         //given
-        Answer answer = new Answer();
-        answer.setCreationDate(OffsetDateTime.now().minusSeconds(60));
+        Answer answer = getAnswerWithSecondsSinceCreation(60L);
         when(answerRepository.findById(any())).thenReturn(Optional.of(answer));
 
         //when
         //then
         assertThatCode(() -> answerService.deleteAnswer(answer))
                 .doesNotThrowAnyException();
+    }
+
+    private Answer getAnswerWithSecondsSinceCreation(long seconds) {
+        Answer answer = new Answer();
+        answer.setCreationDate(OffsetDateTime.now().minusSeconds(seconds));
+        return answer;
     }
 }
