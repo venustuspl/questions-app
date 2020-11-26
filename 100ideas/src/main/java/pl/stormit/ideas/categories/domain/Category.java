@@ -56,4 +56,5 @@ public class Category {
     public void setParent(Category parent) {
         this.parent = parent;
     }
+
 }

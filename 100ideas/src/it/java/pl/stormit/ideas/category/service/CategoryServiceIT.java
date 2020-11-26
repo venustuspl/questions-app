@@ -12,8 +12,6 @@ import pl.stormit.ideas.categories.service.CategoryService;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class CategoryServiceIT {
@@ -25,7 +23,6 @@ class CategoryServiceIT {
 
     @Test
     void shouldSaveNewCategoryInDB() {
-
         //given
         Category categoryToSave=getCategoryToSave();
 
@@ -33,10 +30,9 @@ class CategoryServiceIT {
         Category savedCategory= categoryService.addCategory(categoryToSave);
 
         //then
-        assertEquals(categoryToSave,savedCategory);
-        assertNotNull(categoryToSave.getId());
-    }
-
+        assertThat(savedCategory.getName()).isEqualTo("Test");
+        assertThat(savedCategory.getId()).isNotNull();
+        }
     @Test
     void shouldDeleteCategoryFromDB(){
         //given
@@ -47,7 +43,7 @@ class CategoryServiceIT {
         categoryService.deleteCategory(savedCategory);
         //then
         savedCategories = (List<Category>) categoryRepository.findAll();
-        assertThat(savedCategories.size()).isZero();
+        assertThat(savedCategories).isEmpty();
     }
 
     private Category getCategoryToSave() {
@@ -62,4 +58,3 @@ class CategoryServiceIT {
         categoryRepository.deleteAll();
     }
 }
-
