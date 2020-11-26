@@ -1,6 +1,7 @@
 
 package pl.stormit.ideas.questions.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.stormit.ideas.questions.domain.Question;
@@ -12,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,10 +35,10 @@ class QuestionStateValidatorTest {
         Question question = getQuestionWithId();
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForAdding(question));
+
         //then
-        assertThatIllegalStateException()
-                .isThrownBy(() -> questionStateValidator.validateForAdding(question))
-                .withMessage("The Question cannot contain an ID");
+        assertThat(throwable).hasMessage("The Question cannot contain an ID");
     }
 
     @Test
@@ -50,8 +49,10 @@ class QuestionStateValidatorTest {
         when(validationManager.validate(any(Question.class))).thenReturn(validationResult);
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForUpdating(question));
+
         //then
-        assertThatCode(() -> questionStateValidator.validateForUpdating(question)).doesNotThrowAnyException();
+        assertThat(throwable).doesNotThrowAnyException();
 
     }
 
@@ -61,10 +62,10 @@ class QuestionStateValidatorTest {
         Question question = new Question();
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForUpdating(question));
+
         //then
-        assertThatIllegalStateException()
-                .isThrownBy(() -> questionStateValidator.validateForUpdating(question))
-                .withMessage("The Question to update must contain an ID");
+        assertThat(throwable).hasMessage("The Question to update must contain an ID");
     }
 
     @Test
@@ -73,8 +74,10 @@ class QuestionStateValidatorTest {
         Question question = getQuestionWithId();
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForDeleting(question));
+
         //then
-        assertThatCode(() -> questionStateValidator.validateForDeleting(question))
+        assertThat(throwable)
                 .doesNotThrowAnyException();
     }
 
@@ -84,10 +87,11 @@ class QuestionStateValidatorTest {
         Question question = new Question();
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForDeleting(question));
+
         //then
-        assertThatIllegalStateException()
-                .isThrownBy(() -> questionStateValidator.validateForDeleting(question))
-                .withMessage("The Question to delete must contain an ID");
+        assertThat(throwable)
+                .hasMessage("The Question to delete must contain an ID");
     }
 
     @Test
@@ -98,8 +102,10 @@ class QuestionStateValidatorTest {
         when(validationManager.validate(any(Question.class))).thenReturn(validationResult);
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForAdding(question));
+
         //then
-        assertThatCode(() -> questionStateValidator.validateForAdding(question))
+        assertThat(throwable)
                 .doesNotThrowAnyException();
     }
 
@@ -111,10 +117,10 @@ class QuestionStateValidatorTest {
         when(validationManager.validate(any(Question.class))).thenReturn(validationResult);
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForAdding(question));
+
         //then
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> questionStateValidator.validateForAdding(question))
-                .withMessage("Question is not valid because of: length,words .");
+        assertThat(throwable).hasMessage("Question is not valid because of: length,words .");
     }
 
     @Test
@@ -125,8 +131,10 @@ class QuestionStateValidatorTest {
         when(validationManager.validate(any(Question.class))).thenReturn(validationResult);
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForUpdating(question));
+
         //then
-        assertThatCode(() -> questionStateValidator.validateForUpdating(question))
+        assertThat(throwable)
                 .doesNotThrowAnyException();
     }
 
@@ -138,10 +146,11 @@ class QuestionStateValidatorTest {
         when(validationManager.validate(any(Question.class))).thenReturn(validationResult);
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionStateValidator.validateForUpdating(answer));
+
         //then
-        assertThatIllegalArgumentException()
-                .isThrownBy(() -> questionStateValidator.validateForUpdating(answer))
-                .withMessage("Question is not valid because of: length,words .");
+        assertThat(throwable)
+                .hasMessage("Question is not valid because of: length,words .");
     }
 
 
