@@ -1,5 +1,6 @@
 package pl.stormit.ideas.questions.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalAnswers;
@@ -10,7 +11,6 @@ import pl.stormit.ideas.validation.ValidationManager;
 import java.time.OffsetDateTime;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
@@ -26,7 +26,7 @@ class QuestionServiceTest {
 
     @BeforeEach
     void setUp() {
-        questionService = new QuestionService( questionRepository, validationManager, questionStateValidator);
+        questionService = new QuestionService(questionRepository, validationManager, questionStateValidator);
     }
 
     @Test
@@ -66,10 +66,10 @@ class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(question));
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionService.updateQuestion(question));
+
         //then
-        assertThatIllegalStateException()
-                .isThrownBy(() -> questionService.updateQuestion(question))
-                .withMessage("The Question is too old to be updated");
+        assertThat(throwable).hasMessage("The Question is too old to be updated");
     }
 
     @Test
@@ -79,8 +79,10 @@ class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(question));
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionService.updateQuestion(question));
+
         //then
-        assertThatCode(() -> questionService.updateQuestion(question))
+        assertThat(throwable)
                 .doesNotThrowAnyException();
     }
 
@@ -91,8 +93,10 @@ class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(question));
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionService.updateQuestion(question));
+
         //then
-        assertThatCode(() -> questionService.updateQuestion(question))
+        assertThat(throwable)
                 .doesNotThrowAnyException();
     }
 
@@ -103,10 +107,11 @@ class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(question));
 
         //when
+        Throwable throwable = Assertions.catchThrowable(() -> questionService.deleteQuestion(question));
+
         //then
-        assertThatIllegalStateException()
-                .isThrownBy(() -> questionService.deleteQuestion(question))
-                .withMessage("The Question is too old to be deleted");
+        assertThat(throwable)
+                .hasMessage("The Question is too old to be deleted");
     }
 
     @Test
@@ -116,8 +121,10 @@ class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(question));
 
         //when
+        Throwable throwable = Assertions.catchThrowable(()  -> questionService.deleteQuestion(question));
+
         //then
-        assertThatCode(() -> questionService.deleteQuestion(question))
+        assertThat(throwable)
                 .doesNotThrowAnyException();
     }
 
@@ -128,8 +135,10 @@ class QuestionServiceTest {
         when(questionRepository.findById(any())).thenReturn(Optional.of(question));
 
         //when
-        //then
-        assertThatCode(() -> questionService.deleteQuestion(question))
+        Throwable throwable = Assertions.catchThrowable(()  -> questionService.deleteQuestion(question));
+
+                //then
+        assertThat(throwable)
                 .doesNotThrowAnyException();
     }
 
