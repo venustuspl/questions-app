@@ -2,14 +2,19 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
 </head>
 <body>
-<table>
-    <tbody>
-    <tr th:each="answer : ${answers}">
-        <td th:text="${answer.body}"></td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <table class="table table-striped">
+        <tbody>
+        <tr th:each="answer : ${answers}">
+            <td th:text="${answer.body}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
