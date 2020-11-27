@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<table>
+    <tbody>
+    <tr th:each="answer : ${answers}">
+        <td th:text="${answer.body}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
