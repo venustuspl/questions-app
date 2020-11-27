@@ -9,10 +9,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name = "answers")
 public class Answer implements ValidationInput {
 
     @Id
