@@ -17,6 +17,8 @@ class LengthValidatorTest {
 
     @Test
     public void shouldPrintTooSHortIfInputIsNull() {
+        // given
+
         // when
         List<String> list = lengthValidator.validate(null);
 
@@ -26,6 +28,8 @@ class LengthValidatorTest {
 
     @Test
     public void shouldPrintTooShort() {
+        // given
+
         // when
         List<String> list = lengthValidator.validate("a");
 
@@ -35,6 +39,8 @@ class LengthValidatorTest {
 
     @Test
     public void shouldPrintTooLong() {
+        // given
+
         // when
         List<String> list = lengthValidator.validate("adgjdgjdjgdjgjdjgjdjgdjgjdjgjdjjfdjfdjdjasdjasjdasjdjsdj" +
                 "sdksdkskdksdkskdkskdskdkskdskdkskdssjfsjfsfdjfdkfjkdgjkdgjdkgdkgjkdgjkdjgkdjgkdjgkdjgdjkgdgdg");
