@@ -1,7 +1,9 @@
 package pl.stormit.ideas.validation;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 
@@ -15,35 +17,38 @@ class LengthValidatorTest {
         lengthValidator = new LengthValidator();
     }
 
-    @Test
-    public void shouldPrintTooSHortIfInputIsNull() {
+    @ParameterizedTest
+    @NullSource
+    public void shouldPrintTooSHortIfInputIsNull(String input) {
         // given
 
         // when
-        List<String> list = lengthValidator.validate(null);
+        List<String> list = lengthValidator.validate(input);
+
+        // then
+        assertThat(list).containsExactly("Too short");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"a"})
+    public void shouldPrintTooShort(String input) {
+        // given
+
+        // when
+        List<String> list = lengthValidator.validate(input);
 
         // then
         assertThat(list).contains("Too short");
     }
 
-    @Test
-    public void shouldPrintTooShort() {
+    @ParameterizedTest
+    @ValueSource(strings = {"adgjdgjdjgdjgjdjgjdjgdjgjdjgjdjjfdjfdjdjasdjasjdasjdjsdj" +
+            "sdksdkskdksdkskdkskdskdkskdskdkskdssjfsjfsfdjfdkfjkdgjkdgjdkgdkgjkdgjkdjgkdjgkdjgkdjgdjkgdgdg"})
+    public void shouldPrintTooLong(String input) {
         // given
 
         // when
-        List<String> list = lengthValidator.validate("a");
-
-        // then
-        assertThat(list).contains("Too short");
-    }
-
-    @Test
-    public void shouldPrintTooLong() {
-        // given
-
-        // when
-        List<String> list = lengthValidator.validate("adgjdgjdjgdjgjdjgjdjgdjgjdjgjdjjfdjfdjdjasdjasjdasjdjsdj" +
-                "sdksdkskdksdkskdkskdskdkskdskdkskdssjfsjfsfdjfdkfjkdgjkdgjdkgdkgjkdgjkdjgkdjgkdjgkdjgdjkgdgdg");
+        List<String> list = lengthValidator.validate(input);
 
         // then
         assertThat(list).contains("Too long");

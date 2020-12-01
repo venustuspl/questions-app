@@ -1,6 +1,7 @@
 package pl.stormit.ideas.validation;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 
@@ -8,13 +9,14 @@ import static org.assertj.core.api.Assertions.*;
 
 class ForbiddenWordsValidatorTest {
 
-    @Test
-    public void shouldReturnForbiddenWord() {
+    @ParameterizedTest
+    @ValueSource(strings = {"brzydkie słowo"})
+    public void shouldReturnForbiddenWord(String input) {
         // given
         ForbiddenWordsValidator validator = new ForbiddenWordsValidator();
 
         // when
-        List<String> list = validator.validate("brzydkie słowo");
+        List<String> list = validator.validate(input);
 
         // then
         assertThat(list).contains("forbidden word");
