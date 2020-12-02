@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.*;
 class ForbiddenWordsValidatorTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"brzydkie słowo"})
+    @ValueSource(strings = {"kurwa coś", "bardzo brzydkie kurwa słowa", "chuj", "brzydkie słowa ze słowem chuj"})
     public void shouldReturnForbiddenWord(String input) {
         // given
         ForbiddenWordsValidator validator = new ForbiddenWordsValidator();
@@ -19,6 +19,19 @@ class ForbiddenWordsValidatorTest {
         List<String> list = validator.validate(input);
 
         // then
-        assertThat(list).contains("forbidden word");
+        assertThat(list).hasSizeGreaterThan(0);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"coś", "bardzo brzydkie słowa", "", "brzydkie słowa z zakazanym słowem"})
+    public void shouldReturnEmptyList(String input) {
+        // given
+        ForbiddenWordsValidator validator = new ForbiddenWordsValidator();
+
+        // when
+        List<String> list = validator.validate(input);
+
+        // then
+        assertThat(list).hasSize(0);
     }
 }

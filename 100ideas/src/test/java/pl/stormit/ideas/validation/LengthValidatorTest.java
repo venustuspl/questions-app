@@ -42,6 +42,18 @@ class LengthValidatorTest {
     }
 
     @ParameterizedTest
+    @ValueSource(strings = {""})
+    public void shouldPrintTooShortWhenStringIsEmpty(String input) {
+        // given
+
+        // when
+        List<String> list = lengthValidator.validate(input);
+
+        // then
+        assertThat(list).contains("Too short");
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = {"adgjdgjdjgdjgjdjgjdjgdjgjdjgjdjjfdjfdjdjasdjasjdasjdjsdj" +
             "sdksdkskdksdkskdkskdskdkskdskdkskdssjfsjfsfdjfdkfjkdgjkdgjdkgdkgjkdgjkdjgkdjgkdjgkdjgdjkgdgdg"})
     public void shouldPrintTooLong(String input) {
