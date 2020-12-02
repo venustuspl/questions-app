@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, UUID> {
     List<Category> findAllById(UUID id);
+
+    long countByName(String name);
 }
