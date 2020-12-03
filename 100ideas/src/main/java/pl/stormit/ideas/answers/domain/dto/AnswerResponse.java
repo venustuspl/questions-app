@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-public class AnswerResponse implements Comparable<AnswerResponse>{
+public class AnswerResponse {
     private UUID id;
     private String body;
     private OffsetDateTime creationDate;
@@ -35,20 +35,5 @@ public class AnswerResponse implements Comparable<AnswerResponse>{
 
     public String getCreationTime() {
         return creationDate.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-    }
-
-    @Override
-    public int compareTo(AnswerResponse answerResponse) {
-        return answerResponse.getCreationDate().compareTo(creationDate);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }

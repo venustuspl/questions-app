@@ -39,9 +39,7 @@ public class AnswerController {
     @GetMapping("/{id}")
     public String getAnswers(Model model, @PathVariable UUID id) {
         model.addAttribute("question", questionService.getQuestionById(id));
-        List<AnswerResponse> answerResponses = answerMapper.mapToAnswerResponseList(answerService.getAllAnswersByQuestionId(id));
-        Collections.sort(answerResponses);
-        model.addAttribute("answers", answerResponses);
+        model.addAttribute("answers", answerMapper.mapToAnswerResponseList(answerService.getAllAnswersByQuestionId(id)));
         model.addAttribute("answerToAdd", new AnswerRequest());
         model.addAttribute("answerToUpdate", new AnswerUpdatedRequest());
         model.addAttribute("exception", model.containsAttribute("exception"));
