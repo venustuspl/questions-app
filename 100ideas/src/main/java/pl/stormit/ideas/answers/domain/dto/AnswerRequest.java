@@ -1,10 +1,8 @@
 package pl.stormit.ideas.answers.domain.dto;
 
-import java.util.UUID;
-
 public class AnswerRequest {
     private String body;
-    private UUID questionId;
+    private String questionId;
 
     public String getBody() {
         return body;
@@ -14,11 +12,11 @@ public class AnswerRequest {
         this.body = body;
     }
 
-    public UUID getQuestionId() {
+    public String getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(UUID questionId) {
+    public void setQuestionId(String questionId) {
         this.questionId = questionId;
     }
 }

@@ -11,6 +11,7 @@ import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.service.QuestionService;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -36,7 +37,8 @@ public class AnswerMapper {
     }
 
     public Answer mapToAnswer(AnswerRequest answerRequest) {
-        Question question = questionService.getQuestionById(answerRequest.getQuestionId());
+        UUID questionId = UUID.fromString(answerRequest.getQuestionId());
+        Question question = questionService.getQuestionById(questionId);
         Answer answer = new Answer();
         answer.setQuestion(question);
         answer.setBody(answerRequest.getBody());
