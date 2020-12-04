@@ -27,6 +27,7 @@ public class AnswerMapper {
     public  AnswerResponse mapToAnswerResponse(Answer answer) {
         AnswerResponse answerResponse = new AnswerResponse();
         BeanUtils.copyProperties(answer, answerResponse);
+        answerResponse.setId(answer.getId().toString());
         return answerResponse;
     }
 

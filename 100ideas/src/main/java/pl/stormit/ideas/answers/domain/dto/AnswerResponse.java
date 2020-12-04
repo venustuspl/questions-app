@@ -2,18 +2,17 @@ package pl.stormit.ideas.answers.domain.dto;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 public class AnswerResponse {
-    private UUID id;
+    private String id;
     private String body;
     private OffsetDateTime creationDate;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
