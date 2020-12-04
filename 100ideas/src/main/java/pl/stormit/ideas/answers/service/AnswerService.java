@@ -68,7 +68,7 @@ public class AnswerService {
                 .orElseThrow(() ->
                         new NoSuchElementException("The Question object with id " + questionId + " does not exist in DB")
                 );
-        return answerRepository.findAllByQuestionId(question.getId());
+        return answerRepository.findAllByQuestionIdOrderByCreationDateDesc(question.getId());
     }
 
     private void checkIfAnswerIsNotTooOld(Answer answer, String message) {
