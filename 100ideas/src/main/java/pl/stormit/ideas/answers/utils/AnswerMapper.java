@@ -1,6 +1,5 @@
 package pl.stormit.ideas.answers.utils;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.answers.domain.dto.AnswerRequest;
@@ -27,7 +26,7 @@ public class AnswerMapper {
 
     public  AnswerResponse mapToAnswerResponse(Answer answer) {
         AnswerResponse answerResponse = new AnswerResponse();
-        BeanUtils.copyProperties(answer, answerResponse);
+        answerResponse.setBody(answer.getBody());
         answerResponse.setId(answer.getId().toString());
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
