@@ -1,12 +1,9 @@
 package pl.stormit.ideas.answers.domain.dto;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class AnswerResponse {
     private String id;
     private String body;
-    private OffsetDateTime creationDate;
+    private String creationDate;
 
     public String getId() {
         return id;
@@ -24,15 +21,11 @@ public class AnswerResponse {
         this.body = body;
     }
 
-    public OffsetDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(OffsetDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public String getCreationTime() {
-        return creationDate.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
     }
 }

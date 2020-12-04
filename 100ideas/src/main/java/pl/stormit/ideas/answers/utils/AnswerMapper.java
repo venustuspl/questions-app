@@ -10,6 +10,7 @@ import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.service.QuestionService;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +29,11 @@ public class AnswerMapper {
         AnswerResponse answerResponse = new AnswerResponse();
         BeanUtils.copyProperties(answer, answerResponse);
         answerResponse.setId(answer.getId().toString());
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        String creationDate = answer.getCreationDate().toLocalDateTime().format(dateFormat);
+        answerResponse.setCreationDate(creationDate);
+
         return answerResponse;
     }
 
