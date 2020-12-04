@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.answers.domain.dto.AnswerRequest;
-import pl.stormit.ideas.answers.domain.dto.AnswerResponse;
 import pl.stormit.ideas.answers.domain.dto.AnswerUpdatedRequest;
 import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.answers.utils.AnswerMapper;
 import pl.stormit.ideas.questions.service.QuestionService;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @Controller

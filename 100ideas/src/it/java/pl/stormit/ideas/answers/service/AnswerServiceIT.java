@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.answers.repository.AnswerRepository;
-import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 
