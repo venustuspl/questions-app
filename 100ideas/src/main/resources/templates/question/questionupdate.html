@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Answer</title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <fieldset>
+        <legend>Pytanie</legend>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${exceptionEdit}">
+            <div th:text="${message}"></div>
+            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <table class="table table-striped">
+            <tbody>
+            <tr th:each="question : ${question}">
+                <td>
+                    <small class="form-text text-muted" th:text="${'dodano: ' + question.getCreationTime()}"></small>
+                    <div th:text="${question.name}"></div>
+                </td>
+                <td>
+                    <button class="btn btn-primary" data-target="#exampleModal" data-toggle="modal"
+                            th:attrappend="data-target=${question.id}"
+                            type="button">
+                        Eydytuj
+                    </button>
+                </td>
+                <td>
+                    <a aria-pressed="true" class="btn btn-primary active" role="button"
+                       th:href="@{/questions/__${question.id}__/delete}">Usuń</a>
+                </td>
+                <!--modal start-->
+                <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal"
+                     role="dialog"
+                     tabindex="-1"
+                     th:attrappend="id=${question.id}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edytuj pytanie</h5>
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" th:action="@{/questions/update}" th:object="${questionToUpdate}">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="message-text"
+                                                  name="body" th:text="${question.name}"></textarea>
+                                        <input name="id" th:value="${question.id}" type="hidden">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuluj
+                                        </button>
+                                        <button class="btn btn-primary" type="submit">Zapisz</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--modal end-->
+            </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</div>
+</body>
+</html>
+

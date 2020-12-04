@@ -8,6 +8,7 @@ import pl.stormit.ideas.validation.ValidationManager;
 import javax.transaction.Transactional;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -80,6 +81,10 @@ public class QuestionService {
         }
 
         questionRepository.delete(question);
+    }
+
+    public List<Question> getAllQuestions() {
+        return questionRepository.findAll();
     }
 
     public Question getQuestionById(UUID QuestionId) {

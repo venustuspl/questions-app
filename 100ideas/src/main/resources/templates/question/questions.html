@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <table class="table table-striped">
+        <tbody>
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.name}"></td>
+            <td><a th:href="@{/questions/__${question.id}__}">szczegóły</a></td>
+            <td><a th:href="@{/questions/__${question.id}__/edit}">edytuj pytanie</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

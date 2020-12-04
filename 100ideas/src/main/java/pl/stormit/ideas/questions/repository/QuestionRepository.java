@@ -13,5 +13,7 @@ public interface QuestionRepository extends CrudRepository<Question, UUID> {
 
     List<Question> findAllByName(String name);
 
+    List<Question> findAll();
+
     long countByName(String name);
 }
