@@ -52,8 +52,11 @@ public class AnswerMapper {
     }
 
     public Answer mapToAnswer(AnswerUpdatedRequest answerUpdatedRequest) {
-        Answer answer = answerService.getAnswerById(answerUpdatedRequest.getId());
+        UUID answerId = UUID.fromString(answerUpdatedRequest.getId());
+        Answer answer = answerService.getAnswerById(answerId);
+
         answer.setBody(answerUpdatedRequest.getBody());
+
         return answer;
     }
 }

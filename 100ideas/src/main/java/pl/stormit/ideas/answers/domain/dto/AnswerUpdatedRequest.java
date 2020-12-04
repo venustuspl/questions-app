@@ -1,16 +1,14 @@
 package pl.stormit.ideas.answers.domain.dto;
 
-import java.util.UUID;
-
 public class AnswerUpdatedRequest {
-    private UUID id;
+    private String id;
     private String body;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
