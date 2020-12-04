@@ -1,6 +1,5 @@
 package pl.stormit.ideas.questions.mapper;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import pl.stormit.ideas.categories.service.CategoryService;
 import pl.stormit.ideas.questions.domain.Question;
@@ -10,6 +9,7 @@ import pl.stormit.ideas.questions.domain.QuestionUpdatedRequest;
 import pl.stormit.ideas.questions.service.QuestionService;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,26 +23,27 @@ public class QuestionMapper {
     }
 
 
-    public QuestionResponse mapToQuestionResponse(Question question) {
+    public QuestionResponse mapQuestionToQuestionResponse(Question question) {
         QuestionResponse questionResponse = new QuestionResponse();
-        BeanUtils.copyProperties(question, questionResponse);
+        questionResponse.setName(question.getName());
+        questionResponse.setId(question.getId().toString());
         return questionResponse;
     }
 
-    public List<QuestionResponse> mapToQuestionResponseList(List<Question> questions) {
+    public List<QuestionResponse> mapQuestionsToQuestionResponseList(List<Question> questions) {
         return questions.stream()
-                .map(this::mapToQuestionResponse)
+                .map(this::mapQuestionToQuestionResponse)
                 .collect(Collectors.toList());
     }
 
-    public Question mapToQuestion(QuestionRequest questionRequest) {
-        Question question = questionService.getQuestionById(questionRequest.getQuestionId());
+    public Question mapQuestionRequestToQuestion(QuestionRequest questionRequest) {
+        Question question = questionService.getQuestionById(UUID.fromString(questionRequest.getQuestionId()));
         question.setName(questionRequest.getName());
         return question;
     }
 
-    public Question mapToQuestion(QuestionUpdatedRequest questionUpdatedRequest) {
-        Question question = questionService.getQuestionById(questionUpdatedRequest.getId());
+    public Question mapQuestionUpdatedRequestToQuestion(QuestionUpdatedRequest questionUpdatedRequest) {
+        Question question = questionService.getQuestionById(UUID.fromString(questionUpdatedRequest.getId()));
         question.setName(questionUpdatedRequest.getName());
         return question;
     }

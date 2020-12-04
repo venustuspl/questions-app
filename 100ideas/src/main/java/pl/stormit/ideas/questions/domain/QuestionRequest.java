@@ -1,23 +1,22 @@
 package pl.stormit.ideas.questions.domain;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 public class QuestionRequest {
-    private UUID questionId;
+    private String questionId;
     private String name;
-    private UUID categoryId;
+    private String categoryId;
     private OffsetDateTime creationDate;
 
     public String getName() {
         return name;
     }
 
-    public UUID getQuestionId() {
+    public String getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(UUID questionId) {
+    public void setQuestionId(String questionId) {
         this.questionId = questionId;
     }
 
@@ -25,11 +24,11 @@ public class QuestionRequest {
         this.name = name;
     }
 
-    public UUID getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(UUID categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 

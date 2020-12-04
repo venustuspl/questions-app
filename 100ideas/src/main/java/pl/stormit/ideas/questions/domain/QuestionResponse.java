@@ -1,20 +1,16 @@
 package pl.stormit.ideas.questions.domain;
 
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
-
 public class QuestionResponse {
-    private UUID id;
+    private String id;
     private String name;
-    private UUID categoryId;
-    private OffsetDateTime creationDate;
+    private String categoryId;
+    private String creationDate;
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -26,23 +22,19 @@ public class QuestionResponse {
         this.name = name;
     }
 
-    public UUID getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(UUID categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 
-    public OffsetDateTime getCreationDate() {
+    public String getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(OffsetDateTime creationDate) {
+    public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public String getCreationTime() {
-        return creationDate.toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
     }
 }

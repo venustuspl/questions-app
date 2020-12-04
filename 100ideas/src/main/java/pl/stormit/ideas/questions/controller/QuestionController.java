@@ -40,7 +40,7 @@ public class QuestionController {
 
     @GetMapping("/{id}")
     public String getQuestion(Model model, @PathVariable UUID id) {
-        model.addAttribute("question", questionMapper.mapToQuestionResponse(questionService.getQuestionById(id)));
+        model.addAttribute("question", questionMapper.mapQuestionToQuestionResponse(questionService.getQuestionById(id)));
         model.addAttribute("questionToAdd", new QuestionRequest());
         model.addAttribute("questionToUpdate", new QuestionUpdatedRequest());
         model.addAttribute("exception", model.containsAttribute("exception"));
@@ -50,7 +50,7 @@ public class QuestionController {
 
     @PostMapping("/update")
     public String updateAnswer(QuestionUpdatedRequest questionUpdatedRequest, RedirectAttributes redirectAttributes) {
-        Question question = questionMapper.mapToQuestion(questionUpdatedRequest);
+        Question question = questionMapper.mapQuestionUpdatedRequestToQuestion(questionUpdatedRequest);
         try {
             questionService.updateQuestion(question);
         } catch (Exception exception) {
@@ -64,7 +64,7 @@ public class QuestionController {
 
     @PostMapping("/add")
     public String addQuestion(QuestionRequest questionRequest) {
-        UUID questionId = questionService.addQuestion(questionMapper.mapToQuestion(questionRequest)).getId();
+        UUID questionId = questionService.addQuestion(questionMapper.mapQuestionRequestToQuestion(questionRequest)).getId();
         return "redirect:question/questions/" + questionId;
     }
 
