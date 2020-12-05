@@ -10,6 +10,10 @@
 <div class="container">
     <table class="table table-striped">
         <tbody>
+        <tr>
+            <td>
+            <td><a th:href="@{/questions/add}">dodaj pytanie</a></td>
+            </td></tr>
         <tr th:each="question : ${questions}">
             <td th:text="${question.name}"></td>
             <td><a th:href="@{/questions/__${question.id}__}">edytuj pytanie</a></td>

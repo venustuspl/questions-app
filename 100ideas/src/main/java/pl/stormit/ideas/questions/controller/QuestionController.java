@@ -41,7 +41,6 @@ public class QuestionController {
     @GetMapping("/{id}")
     public String getQuestion(Model model, @PathVariable UUID id) {
         model.addAttribute("question", questionMapper.mapQuestionToQuestionResponse(questionService.getQuestionById(id)));
-        model.addAttribute("questionToAdd", new QuestionRequest());
         model.addAttribute("questionToUpdate", new QuestionUpdatedRequest());
         model.addAttribute("exception", model.containsAttribute("exception"));
         model.addAttribute("exceptionEdit", model.containsAttribute("exceptionEdit"));
@@ -49,7 +48,7 @@ public class QuestionController {
     }
 
     @PostMapping("/update")
-    public String updateAnswer(QuestionUpdatedRequest questionUpdatedRequest, RedirectAttributes redirectAttributes) {
+    public String updateQuestion(QuestionUpdatedRequest questionUpdatedRequest, RedirectAttributes redirectAttributes) {
         Question question = questionMapper.mapQuestionUpdatedRequestToQuestion(questionUpdatedRequest);
         try {
             questionService.updateQuestion(question);
@@ -62,10 +61,29 @@ public class QuestionController {
         return "redirect:/questions/" + question.getId();
     }
 
+    @GetMapping("/add")
+    public String addQuestionPage(Model model) {
+        model.addAttribute("questionToAdd", new QuestionRequest());
+        model.addAttribute("exception", model.containsAttribute("exception"));
+        return "question/questionadd";
+    }
+
     @PostMapping("/add")
-    public String addQuestion(QuestionRequest questionRequest) {
-        UUID questionId = questionService.addQuestion(questionMapper.mapQuestionRequestToQuestion(questionRequest)).getId();
-        return "redirect:question/questions/" + questionId;
+    public String addQuestion(QuestionRequest questionRequest, RedirectAttributes redirectAttributes) {
+        try {
+            questionService.addQuestion(questionMapper.mapQuestionRequestToQuestion(questionRequest));
+        } catch (Exception exception) {
+            redirectAttributes
+                    .addFlashAttribute("exception", true)
+                    .addFlashAttribute("message", exception.getMessage());
+            return "redirect:/questions/add";
+        }
+        return "redirect:/questions/add";
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return categoryService.getCategoryById(UUID.fromString("64497d0a-3e32-418e-a9fd-4851a13cf144")).toString();
     }
 
     @GetMapping("/{id}/delete")

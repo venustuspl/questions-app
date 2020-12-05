@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Answer</title>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <fieldset>
+        <legend>Odpowiedź</legend>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${exception}">
+            <div th:text="${message}"></div>
+            <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </fieldset>
+    <!--input start-->
+    <form method="post" th:action="@{/questions/add}" th:object="${questionToAdd}">
+        <div class="form-group">
+            <textarea aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1"
+                      placeholder="Napisz Pytanie"
+                      th:field="*{name}" type="text"></textarea>
+            <input th:attr="name='categoryId'" th:field="*{categoryId}" type="text">
+            <button class="btn btn-primary" type="submit">Zapisz Pytanie</button>
+        </div>
+    </form>
+    <!--input end-->
+</div>
+</body>
+</html>

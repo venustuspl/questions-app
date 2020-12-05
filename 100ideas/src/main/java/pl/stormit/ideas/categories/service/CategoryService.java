@@ -42,4 +42,11 @@ public class CategoryService {
                 );
         return categoryRepository.findAllById(category.getId());
     }
+
+    public Category getCategoryById(UUID id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Category object with id " + id + " does not exist in DB")
+                );
+    }
 }
