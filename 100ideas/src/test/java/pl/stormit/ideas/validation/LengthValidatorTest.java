@@ -1,6 +1,6 @@
 package pl.stormit.ideas.validation;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -10,10 +10,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 
 class LengthValidatorTest {
-    private LengthValidator lengthValidator;
+    private static LengthValidator lengthValidator;
 
-    @BeforeEach
-    public void init() {
+    @BeforeAll
+    public static void init() {
         lengthValidator = new LengthValidator();
     }
 
