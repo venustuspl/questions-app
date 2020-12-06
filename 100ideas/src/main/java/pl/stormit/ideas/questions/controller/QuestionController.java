@@ -78,12 +78,7 @@ public class QuestionController {
                     .addFlashAttribute("message", exception.getMessage());
             return "redirect:/questions/add";
         }
-        return "redirect:/questions/add";
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return categoryService.getCategoryById(UUID.fromString("64497d0a-3e32-418e-a9fd-4851a13cf144")).toString();
+        return "redirect:/questions/";
     }
 
     @GetMapping("/{id}/delete")
@@ -98,7 +93,7 @@ public class QuestionController {
             return "redirect:/questions/" + question.getId();
         }
 
-        return "redirect:question/questions";
+        return "redirect:/questions/";
     }
 
 }
