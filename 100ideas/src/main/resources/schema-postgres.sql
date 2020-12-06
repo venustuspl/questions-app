@@ -27,3 +27,9 @@ CREATE TABLE answers (
 	PRIMARY KEY (id),
 	FOREIGN KEY (question_id) REFERENCES questions(id)
 );
+
+CREATE TABLE forbidden_words (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    word text,
+    PRIMARY KEY (id)
+);
