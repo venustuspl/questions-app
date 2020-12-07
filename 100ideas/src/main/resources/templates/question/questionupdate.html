@@ -52,7 +52,7 @@
                                 <form method="post" th:action="@{/questions/update}" th:object="${questionToUpdate}">
                                     <div class="form-group">
                                         <textarea class="form-control" id="message-text"
-                                                  name="body" th:text="${question.name}"></textarea>
+                                                  name="name" th:text="${question.name}"></textarea>
                                         <input name="id" th:value="${question.id}" type="hidden">
                                     </div>
                                     <div class="modal-footer">

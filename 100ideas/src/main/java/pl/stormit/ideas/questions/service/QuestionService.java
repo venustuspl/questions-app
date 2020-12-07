@@ -87,10 +87,10 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    public Question getQuestionById(UUID QuestionId) {
-        return questionRepository.findById(QuestionId)
+    public Question getQuestionById(UUID questionId) {
+        return questionRepository.findById(questionId)
                 .orElseThrow(() ->
-                        new NoSuchElementException("The Question object with id " + QuestionId + " does not exist in DB")
+                        new NoSuchElementException("The Question object with id " + questionId + " does not exist in DB")
                 );
     }
 

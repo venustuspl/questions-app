@@ -50,7 +50,6 @@ public class QuestionMapper {
     public Question mapQuestionUpdatedRequestToQuestion(QuestionUpdatedRequest questionUpdatedRequest) {
         Question question = questionService.getQuestionById(UUID.fromString(questionUpdatedRequest.getId()));
         question.setName(questionUpdatedRequest.getName());
-        question.setCreationDate(OffsetDateTime.now());
         return question;
     }
 }
