@@ -9,6 +9,7 @@ import pl.stormit.ideas.questions.domain.QuestionResponse;
 import pl.stormit.ideas.questions.domain.QuestionUpdatedRequest;
 import pl.stormit.ideas.questions.service.QuestionService;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ public class QuestionMapper {
         QuestionResponse questionResponse = new QuestionResponse();
         questionResponse.setName(question.getName());
         questionResponse.setId(question.getId().toString());
+        questionResponse.setCreationDate(question.getCreationDate().toString());
         return questionResponse;
     }
 
@@ -41,12 +43,14 @@ public class QuestionMapper {
         Question question = new Question();
         question.setName(questionRequest.getName());
         question.setCategory(categoryService.getCategoryById(UUID.fromString(questionRequest.getCategoryId())));
+        question.setCreationDate(OffsetDateTime.now());
         return question;
     }
 
     public Question mapQuestionUpdatedRequestToQuestion(QuestionUpdatedRequest questionUpdatedRequest) {
         Question question = questionService.getQuestionById(UUID.fromString(questionUpdatedRequest.getId()));
         question.setName(questionUpdatedRequest.getName());
+        question.setCreationDate(OffsetDateTime.now());
         return question;
     }
 }
