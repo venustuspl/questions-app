@@ -28,7 +28,9 @@ public class CategoryService {
     @Transactional
     public void deleteCategory(Category categoryToDelete) {
         UUID categoryToDeleteId = categoryToDelete.getId();
-
+        if (categoryToDelete.getId() == null) {
+            throw new IllegalStateException("The Category to delete must contain an ID");
+        }
         Category category = categoryRepository.findById(categoryToDeleteId)
                 .orElseThrow(() -> new NoSuchElementException("The Question object with id " + categoryToDeleteId + " does not exist in DB"));
 
