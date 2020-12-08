@@ -12,6 +12,7 @@ import pl.stormit.ideas.answers.domain.dto.AnswerRequest;
 import pl.stormit.ideas.answers.domain.dto.AnswerUpdatedRequest;
 import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.answers.utils.AnswerMapper;
+import pl.stormit.ideas.questions.mapper.QuestionMapper;
 import pl.stormit.ideas.questions.service.QuestionService;
 
 import java.util.UUID;
@@ -22,20 +23,23 @@ public class AnswerController {
     private final AnswerService answerService;
     private final QuestionService questionService;
     private final AnswerMapper answerMapper;
+    private final QuestionMapper questionMapper;
 
     public AnswerController(
             AnswerService answerService,
             QuestionService questionService,
-            AnswerMapper answerMapper) {
+            AnswerMapper answerMapper,
+            QuestionMapper questionMapper) {
         this.answerService = answerService;
         this.questionService = questionService;
         this.answerMapper = answerMapper;
+        this.questionMapper = questionMapper;
     }
 
 
     @GetMapping("/{id}")
     public String getAnswers(Model model, @PathVariable UUID id) {
-        model.addAttribute("question", questionService.getQuestionById(id));
+        model.addAttribute("question", questionMapper.mapQuestionToQuestionResponse(questionService.getQuestionById(id)));
         model.addAttribute("answers", answerMapper.mapToAnswerResponseList(answerService.getAllAnswersByQuestionId(id)));
         model.addAttribute("answerToAdd", new AnswerRequest());
         model.addAttribute("answerToUpdate", new AnswerUpdatedRequest());
