@@ -9,7 +9,6 @@ import pl.stormit.ideas.questions.domain.QuestionResponse;
 import pl.stormit.ideas.questions.domain.QuestionUpdatedRequest;
 import pl.stormit.ideas.questions.service.QuestionService;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,7 +42,7 @@ public class QuestionMapper {
         Question question = new Question();
         question.setName(questionRequest.getName());
         question.setCategory(categoryService.getCategoryById(UUID.fromString(questionRequest.getCategoryId())));
-        question.setCreationDate(OffsetDateTime.now());
+        question.setCreationDate(questionRequest.getCreationDate());
         return question;
     }
 
