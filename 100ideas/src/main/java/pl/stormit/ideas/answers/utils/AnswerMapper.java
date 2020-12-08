@@ -1,6 +1,5 @@
 package pl.stormit.ideas.answers.utils;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.answers.domain.dto.AnswerRequest;
@@ -10,7 +9,9 @@ import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.service.QuestionService;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -25,7 +26,13 @@ public class AnswerMapper {
 
     public  AnswerResponse mapToAnswerResponse(Answer answer) {
         AnswerResponse answerResponse = new AnswerResponse();
-        BeanUtils.copyProperties(answer, answerResponse);
+        answerResponse.setBody(answer.getBody());
+        answerResponse.setId(answer.getId().toString());
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        String creationDate = answer.getCreationDate().toLocalDateTime().format(dateFormat);
+        answerResponse.setCreationDate(creationDate);
+
         return answerResponse;
     }
 
@@ -36,7 +43,8 @@ public class AnswerMapper {
     }
 
     public Answer mapToAnswer(AnswerRequest answerRequest) {
-        Question question = questionService.getQuestionById(answerRequest.getQuestionId());
+        UUID questionId = UUID.fromString(answerRequest.getQuestionId());
+        Question question = questionService.getQuestionById(questionId);
         Answer answer = new Answer();
         answer.setQuestion(question);
         answer.setBody(answerRequest.getBody());
@@ -44,8 +52,11 @@ public class AnswerMapper {
     }
 
     public Answer mapToAnswer(AnswerUpdatedRequest answerUpdatedRequest) {
-        Answer answer = answerService.getAnswerById(answerUpdatedRequest.getId());
+        UUID answerId = UUID.fromString(answerUpdatedRequest.getId());
+        Answer answer = answerService.getAnswerById(answerId);
+
         answer.setBody(answerUpdatedRequest.getBody());
+
         return answer;
     }
 }

@@ -41,7 +41,7 @@
             <tbody>
             <tr th:each="answer : ${answers}">
                 <td>
-                    <small class="form-text text-muted" th:text="${'dodano: ' + answer.getCreationTime()}"></small>
+                    <small class="form-text text-muted" th:text="${'dodano: ' + answer.getCreationDate()}"></small>
                     <div th:text="${answer.body}"></div>
                 </td>
                 <td>
