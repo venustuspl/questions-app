@@ -1,4 +1,4 @@
-package pl.stormit.ideas.answers.service;
+package pl.stormit.ideas.answers.service.validator;
 
 import org.springframework.stereotype.Service;
 import pl.stormit.ideas.answers.domain.Answer;

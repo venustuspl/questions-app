@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalAnswers;
 import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.answers.repository.AnswerRepository;
+import pl.stormit.ideas.answers.service.validator.AnswerValidator;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 
 import java.time.OffsetDateTime;

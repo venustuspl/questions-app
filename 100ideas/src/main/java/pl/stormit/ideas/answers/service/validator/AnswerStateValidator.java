@@ -1,4 +1,4 @@
-package pl.stormit.ideas.answers.service;
+package pl.stormit.ideas.answers.service.validator;
 
 import org.springframework.stereotype.Service;
 import pl.stormit.ideas.answers.domain.Answer;
@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class AnswerStateValidator {
+class AnswerStateValidator {
     private final QuestionRepository questionRepository;
 
     public AnswerStateValidator(QuestionRepository questionRepository) {
