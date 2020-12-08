@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.stormit.ideas.answers.domain.Answer;
-import pl.stormit.ideas.answers.domain.dto.AnswerRequest;
+import pl.stormit.ideas.answers.domain.dto.AnswerAddRequest;
 import pl.stormit.ideas.answers.domain.dto.AnswerUpdatedRequest;
 import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.answers.utils.AnswerMapper;
@@ -41,7 +41,7 @@ public class AnswerController {
     public String getAnswers(Model model, @PathVariable UUID id) {
         model.addAttribute("question", questionMapper.mapQuestionToQuestionResponse(questionService.getQuestionById(id)));
         model.addAttribute("answers", answerMapper.mapToAnswerResponseList(answerService.getAllAnswersByQuestionId(id)));
-        model.addAttribute("answerToAdd", new AnswerRequest());
+        model.addAttribute("answerToAdd", new AnswerAddRequest());
         model.addAttribute("answerToUpdate", new AnswerUpdatedRequest());
         model.addAttribute("exception", model.containsAttribute("exception"));
         model.addAttribute("exceptionEdit", model.containsAttribute("exceptionEdit"));
@@ -49,16 +49,16 @@ public class AnswerController {
     }
 
     @PostMapping
-    public String addAnswer(AnswerRequest answerRequest, RedirectAttributes redirectAttributes) {
+    public String addAnswer(AnswerAddRequest answerAddRequest, RedirectAttributes redirectAttributes) {
         try {
-            answerService.addAnswer(answerMapper.mapToAnswer(answerRequest));
+            answerService.addAnswer(answerMapper.mapToAnswer(answerAddRequest));
         } catch (Exception exception) {
             redirectAttributes
                     .addFlashAttribute("exception", true)
                     .addFlashAttribute("message", exception.getMessage());
-            return "redirect:/answers/" + answerRequest.getQuestionId();
+            return "redirect:/answers/" + answerAddRequest.getQuestionId();
         }
-        return "redirect:/answers/" + answerRequest.getQuestionId();
+        return "redirect:/answers/" + answerAddRequest.getQuestionId();
     }
 
     @PostMapping("/update")
