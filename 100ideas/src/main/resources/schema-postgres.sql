@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS categories, questions, answers;
+DROP TABLE IF EXISTS categories, questions, answers, forbidden_words;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 

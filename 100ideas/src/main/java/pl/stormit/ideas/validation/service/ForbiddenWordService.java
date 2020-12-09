@@ -10,6 +10,10 @@ import java.util.List;
 public class ForbiddenWordService {
     private ForbiddenWordRepository forbiddenWordRepository;
 
+   public ForbiddenWordService(ForbiddenWordRepository forbiddenWordRepository) {
+        this.forbiddenWordRepository = forbiddenWordRepository;
+    }
+
     public List<ForbiddenWord> getAllForbiddenWords() {
        return forbiddenWordRepository.findAll();
     }
