@@ -1,6 +1,8 @@
 package pl.stormit.ideas.validation;
 
 import org.springframework.stereotype.Component;
+import pl.stormit.ideas.validation.domain.ForbiddenWord;
+import pl.stormit.ideas.validation.service.ForbiddenWordService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +10,20 @@ import java.util.List;
 @Component
 class ForbiddenWordsValidator implements Validator {
 
-    private List<String> forbiddenWords = List.of("kurwa", "chuj");
+    private final ForbiddenWordService forbiddenWordService;
 
-    public List<String> getForbiddenWords() {
-        return forbiddenWords;
+    public ForbiddenWordsValidator(ForbiddenWordService forbiddenWordService) {
+        this.forbiddenWordService = forbiddenWordService;
     }
 
     @Override
     public List<String> validate(String input) {
         List<String> errors = new ArrayList<>();
-        for (String forbiddenWord : forbiddenWords) {
-            if (input.toLowerCase().contains(forbiddenWord)) {
-                errors.add(forbiddenWord);
+
+        List<ForbiddenWord> list = forbiddenWordService.getAllForbiddenWords();
+        for (ForbiddenWord forbiddenWord : list) {
+            if (input.toLowerCase().contains(forbiddenWord.getWord())) {
+                errors.add("forbidden word");
             }
         }
         return errors;
