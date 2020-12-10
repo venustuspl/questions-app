@@ -1,0 +1,51 @@
+
+
+Server
+1. Install Docker.
+2. Start container with DB.
+3. Install webhook.
+    sudo apt-get install webhook
+4. Create a file named hooks.json in a directory of your choice.
+    [
+      {
+        "id": "redeploy",
+        "execute-command": "/my/scrips/path/redeploy.sh",
+        "command-working-directory": "/my/path/to/hooks",
+        "response-message": "Redeploying API server."
+      }
+    ]
+5. Create a script named redeploy.sh in a directory of your choice ("/my/scrips/path/redeploy.sh").
+    #!bin/bash
+    docker pull example/repository:latest
+    docker stop SAMPLE_APP
+    docker system prune -f
+    docker run -d --name=SAMPLE_APP example/repository:latest
+6. Install supervisor
+    sudo apt install supervisor
+7. In folder /etc/supervisor/conf.d add file named webhooks.conf
+    [program:webhooks]
+    command=bash -c "webhook -hooks /my/path/to/hooks/hooks.json -verbose"
+    redirect_stderr=true
+    autostart=true
+    autorestart=true
+    user=johndoe
+    numprocs=1
+    process_name=%(program_name)s_%(process_num)s
+    stdout_logfile=/home/johndoe/hooks/supervisor.log
+    environment=HOME="/home/johndoe",USER="johndoe"
+8. Execute below commands
+    touch ~/hooks/supervisor.log
+    sudo supervisorctl reread
+    sudo supervisorctl update
+    sudo supervisorctl start webhooks:*
+
+
+Once running, the endpoint will be made available at http://server-ip-address:9000/hooks/redeploy.
+
+
+GitHib
+1. Set up below variables as secrets.
+    DOCKER_REPO - name of your repository at Docker Hub
+    DOCKER_USER - your username
+    DOCKER_PASS - your password
+    DEPLOY_WEBHOOK_URL - http://server-ip-address:9000/hooks/redeploy
