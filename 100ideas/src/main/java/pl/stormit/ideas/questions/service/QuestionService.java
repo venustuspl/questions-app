@@ -1,6 +1,8 @@
 package pl.stormit.ideas.questions.service;
 
 import org.springframework.stereotype.Service;
+import pl.stormit.ideas.categories.domain.Category;
+import pl.stormit.ideas.categories.repository.CategoryRepository;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 import pl.stormit.ideas.validation.ValidationManager;
@@ -18,11 +20,13 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final ValidationManager validationManager;
     private final QuestionStateValidator questionStateValidator;
+    private final CategoryRepository categoryRepository;
 
-    public QuestionService(QuestionRepository questionRepository, ValidationManager validationManager, QuestionStateValidator questionStateValidator) {
+    public QuestionService(QuestionRepository questionRepository, ValidationManager validationManager, QuestionStateValidator questionStateValidator, CategoryRepository categoryRepository) {
         this.questionRepository = questionRepository;
         this.validationManager = validationManager;
         this.questionStateValidator = questionStateValidator;
+        this.categoryRepository = categoryRepository;
     }
 
     @Transactional
@@ -94,4 +98,11 @@ public class QuestionService {
                 );
     }
 
+    public List<Question> getAllQuestionsByCategoryId(UUID categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Question object with id " + categoryId + " does not exist in DB")
+                );
+        return questionRepository.findAllByCategoryIdOrderByCreationDateDesc(category.getId());
+    }
 }

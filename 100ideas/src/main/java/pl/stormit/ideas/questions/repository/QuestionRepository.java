@@ -15,5 +15,7 @@ public interface QuestionRepository extends CrudRepository<Question, UUID> {
 
     List<Question> findAll();
 
+    List<Question> findAllByCategoryIdOrderByCreationDateDesc(UUID categoryId);
+
     long countByName(String name);
 }

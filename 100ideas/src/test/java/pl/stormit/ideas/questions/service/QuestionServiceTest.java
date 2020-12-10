@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalAnswers;
+import pl.stormit.ideas.categories.repository.CategoryRepository;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.repository.QuestionRepository;
 import pl.stormit.ideas.validation.ValidationManager;
@@ -21,10 +22,11 @@ class QuestionServiceTest {
     private final QuestionRepository questionRepository = mock(QuestionRepository.class);
     private final ValidationManager validationManager = mock(ValidationManager.class);
     private final QuestionStateValidator questionStateValidator = mock(QuestionStateValidator.class);
+    private final CategoryRepository categoryRepository = mock(CategoryRepository.class);
 
     @BeforeEach
     void setUp() {
-        questionService = new QuestionService(questionRepository, validationManager, questionStateValidator);
+        questionService = new QuestionService(questionRepository, validationManager, questionStateValidator, categoryRepository);
     }
 
     @Test

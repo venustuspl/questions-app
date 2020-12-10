@@ -47,6 +47,12 @@ public class QuestionController {
         return "question/questionupdate";
     }
 
+    @GetMapping("/category/{id}")
+    public String getQuestionByCategory(Model model, @PathVariable UUID id) {
+        model.addAttribute("questions", questionService.getAllQuestionsByCategoryId(id));
+        return "question/questions";
+    }
+
     @PostMapping("/update")
     public String updateQuestion(QuestionUpdatedRequest questionUpdatedRequest, RedirectAttributes redirectAttributes) {
         Question question = questionMapper.mapQuestionUpdatedRequestToQuestion(questionUpdatedRequest);
