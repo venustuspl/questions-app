@@ -4,6 +4,10 @@ on:
   push:
     branches: [ master ]
 
+defaults:
+  run:
+    working-directory: 100ideas
+
 jobs:
   test:
     name: Test - Unit & Integration
