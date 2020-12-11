@@ -1,4 +1,4 @@
-package pl.stormit.ideas.answers.service;
+package pl.stormit.ideas.answers.service.validator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
