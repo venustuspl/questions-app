@@ -4,10 +4,6 @@
 name: CI CD workflow
 
 on:
-  push:
-    branches: [ master ]
-    paths:
-    - '100ideas/**'
   pull_request:
     branches: [ master ]
     paths:
