@@ -1,6 +1,6 @@
 package pl.stormit.ideas.answers.domain.dto;
 
-public class AnswerRequest {
+public class AnswerAddRequest {
     private String body;
     private String questionId;
 
