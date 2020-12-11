@@ -35,6 +35,7 @@ public class QuestionController {
     @GetMapping
     public String getQuestions(Model model) {
         model.addAttribute("questions", questionService.getAllQuestions());
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "question/questions";
     }
 
@@ -49,6 +50,7 @@ public class QuestionController {
 
     @GetMapping("/category/{id}")
     public String getQuestionByCategory(Model model, @PathVariable UUID id) {
+        System.out.println(id);
         model.addAttribute("questions", questionService.getAllQuestionsByCategoryId(id));
         return "question/questions";
     }

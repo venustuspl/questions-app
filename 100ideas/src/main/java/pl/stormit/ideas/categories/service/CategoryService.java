@@ -51,4 +51,8 @@ public class CategoryService {
                         new NoSuchElementException("The Category object with id " + id + " does not exist in DB")
                 );
     }
+
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
 }

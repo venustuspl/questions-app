@@ -8,6 +8,19 @@
 </head>
 <body>
 <div class="container">
+    <div class="form-group">
+        <form method="get" th:action="@{/questions/category}">
+            <label for="id">Wybierz kategorię</label>
+            <select class="form-control selectpicker" id="id">
+                <option value="">Brak wyboru</option>
+                <option th:each="category : ${categories}"
+                        th:text="${category.name}"
+                        th:value="${category.id}">kategoria
+                </option>
+            </select>
+            <button class="" type="submit">Filtruj</button>
+        </form>
+    </div>
     <table class="table table-striped">
         <tbody>
         <tr>
