@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <form method="post" th:action="@{/categories/add}" th:object="${categoryToAdd}">
+        <div class="form-group">
+            <textarea
+                    placeholder="Dodaj kategorię"
+                    th:field="*{name}" type="text"></textarea>
+            <button class="btn btn-primary" type="submit">Zapisz</button>
+        </div>
+    </form>
+    <!--input end-->
+    <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/categories}">Strona
+        główna</a>
+</div>
+</body>
+</html>
