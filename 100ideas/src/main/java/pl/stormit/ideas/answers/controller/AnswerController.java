@@ -7,40 +7,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.answers.domain.dto.AnswerAddRequest;
 import pl.stormit.ideas.answers.domain.dto.AnswerUpdatedRequest;
-import pl.stormit.ideas.answers.service.AnswerService;
-import pl.stormit.ideas.answers.utils.AnswerMapper;
-import pl.stormit.ideas.questions.mapper.QuestionMapper;
-import pl.stormit.ideas.questions.service.QuestionService;
-
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/answers")
 public class AnswerController {
-    private final AnswerService answerService;
-    private final QuestionService questionService;
-    private final AnswerMapper answerMapper;
-    private final QuestionMapper questionMapper;
+    private final AnswerFacade answerFacade;
 
-    public AnswerController(
-            AnswerService answerService,
-            QuestionService questionService,
-            AnswerMapper answerMapper,
-            QuestionMapper questionMapper) {
-        this.answerService = answerService;
-        this.questionService = questionService;
-        this.answerMapper = answerMapper;
-        this.questionMapper = questionMapper;
+    public AnswerController(AnswerFacade answerFacade) {
+        this.answerFacade = answerFacade;
     }
 
-
     @GetMapping("/{id}")
-    public String getAnswers(Model model, @PathVariable UUID id) {
-        model.addAttribute("question", questionMapper.mapQuestionToQuestionResponse(questionService.getQuestionById(id)));
-        model.addAttribute("answers", answerMapper.mapToAnswerResponseList(answerService.getAllAnswersByQuestionId(id)));
+    public String getAnswers(Model model, @PathVariable String id) {
+        model.addAttribute("question", answerFacade.getQuestionById(id));
+        model.addAttribute("answers", answerFacade.getAllAnswersByQuestionId(id));
         model.addAttribute("answerToAdd", new AnswerAddRequest());
         model.addAttribute("answerToUpdate", new AnswerUpdatedRequest());
         model.addAttribute("exception", model.containsAttribute("exception"));
@@ -51,7 +33,7 @@ public class AnswerController {
     @PostMapping
     public String addAnswer(AnswerAddRequest answerAddRequest, RedirectAttributes redirectAttributes) {
         try {
-            answerService.addAnswer(answerMapper.mapToAnswer(answerAddRequest));
+            answerFacade.addAnswer(answerAddRequest);
         } catch (Exception exception) {
             redirectAttributes
                     .addFlashAttribute("exception", true)
@@ -63,29 +45,29 @@ public class AnswerController {
 
     @PostMapping("/update")
     public String updateAnswer(AnswerUpdatedRequest answerUpdatedRequest, RedirectAttributes redirectAttributes) {
-        Answer answer = answerMapper.mapToAnswer(answerUpdatedRequest);
+        String questionId = answerFacade.getQuestionId(answerUpdatedRequest);
         try {
-            answerService.updateAnswer(answer);
+            answerFacade.updateAnswer(answerUpdatedRequest);
         } catch (Exception exception) {
             redirectAttributes
                     .addFlashAttribute("exceptionEdit", true)
                     .addFlashAttribute("message", exception.getMessage());
-            return "redirect:/answers/" + answer.getQuestion().getId();
+            return "redirect:/answers/" + questionId;
         }
-        return "redirect:/answers/" + answer.getQuestion().getId();
+        return "redirect:/answers/" + questionId;
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteAnswer(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
-        Answer answer = answerService.getAnswerById(id);
+    public String deleteAnswer(@PathVariable String id, RedirectAttributes redirectAttributes) {
+        String questionId = answerFacade.getQuestionId(id);
         try {
-            answerService.deleteAnswer(answer);
+            answerFacade.deleteAnswer(id);
         } catch (Exception exception) {
             redirectAttributes
                     .addFlashAttribute("exceptionEdit", true)
                     .addFlashAttribute("message", exception.getMessage());
-            return "redirect:/answers/" + answer.getQuestion().getId();
+            return "redirect:/answers/" +questionId;
         }
-        return "redirect:/answers/" + answer.getQuestion().getId();
+        return "redirect:/answers/" + questionId;
     }
 }
