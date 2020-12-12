@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import pl.stormit.ideas.categories.domain.Category;
 import pl.stormit.ideas.categories.domain.CategoryAddedRequest;
 import pl.stormit.ideas.categories.domain.CategoryResponse;
+import pl.stormit.ideas.categories.domain.CategoryUpdatedRequest;
 import pl.stormit.ideas.categories.service.CategoryService;
 
 import java.util.List;
@@ -16,13 +17,6 @@ public class CategoryMapper {
 
     public CategoryMapper(CategoryService categoryService) {
         this.categoryService = categoryService;
-    }
-
-    public CategoryResponse mapCategoryToCategoryResponse(Category category) {
-        CategoryResponse categoryResponse = new CategoryResponse();
-        categoryResponse.setName(category.getName());
-        categoryResponse.setId(category.getId().toString());
-        return categoryResponse;
     }
 
     public CategoryResponse mapToCategoryResponse(Category category) {
@@ -42,6 +36,12 @@ public class CategoryMapper {
         Category category = new Category();
         category.setName(categoryAddedRequest.getName());
         category.setParent(categoryService.getCategoryById(UUID.fromString(categoryAddedRequest.getCategoryId())));
+        return category;
+    }
+
+    public Category mapCategoryUpdatedRequestToCategory(CategoryUpdatedRequest categoryUpdatedRequest) {
+        Category category = categoryService.getCategoryById(UUID.fromString(categoryUpdatedRequest.getId()));
+        category.setName(categoryUpdatedRequest.getName());
         return category;
     }
 }

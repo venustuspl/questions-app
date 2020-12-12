@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.stormit.ideas.categories.domain.Category;
 import pl.stormit.ideas.categories.domain.CategoryAddedRequest;
+import pl.stormit.ideas.categories.domain.CategoryUpdatedRequest;
 import pl.stormit.ideas.categories.mapper.CategoryMapper;
 import pl.stormit.ideas.categories.service.CategoryService;
 
@@ -25,13 +26,28 @@ public class CategoryController {
         this.categoryMapper = categoryMapper;
     }
 
+    @GetMapping
+    public String getCategories(Model model) {
+        model.addAttribute("categories", categoryService.getAllQuestions());
+        return "category/categories";
+    }
+
     @GetMapping("/{id}")
     public String getCategory(Model model, @PathVariable UUID id) {
         model.addAttribute("categories", categoryMapper.mapToCategoryResponseList(categoryService.getAllCategoriesByCategoryId(id)));
         model.addAttribute("categoryToAdd", new CategoryAddedRequest());
+        model.addAttribute("categoryToUpdate", new CategoryUpdatedRequest());
+
         model.addAttribute("exception", model.containsAttribute("exception"));
         model.addAttribute("exceptionEdit", model.containsAttribute("exceptionEdit"));
         return "category/categories";
+    }
+
+    @GetMapping("/add")
+    public String addCategoryPage(Model model) {
+        model.addAttribute("categoryToAdd", new CategoryAddedRequest());
+        model.addAttribute("exception", model.containsAttribute("exception"));
+        return "category/categoryadd";
     }
 
     @PostMapping("/add")
@@ -52,6 +68,27 @@ public class CategoryController {
         Category category = categoryService.getCategoryById(id);
         try {
             categoryService.deleteCategory(category);
+        } catch (Exception exception) {
+            redirectAttributes
+                    .addFlashAttribute("exceptionEdit", true)
+                    .addFlashAttribute("message", exception.getMessage());
+            return "redirect:/categories/" + category.getId();
+        }
+        return "redirect:/categories/";
+    }
+
+    @GetMapping("/update")
+    public String updateCategoryPage(Model model) {
+        model.addAttribute("categoryToUpdate", new CategoryUpdatedRequest());
+        model.addAttribute("exception", model.containsAttribute("exception"));
+        return "category/categoryupdate";
+    }
+
+    @PostMapping("/update")
+    public String updateCategory(CategoryUpdatedRequest categoryUpdatedRequest, RedirectAttributes redirectAttributes) {
+        Category category = categoryMapper.mapCategoryUpdatedRequestToCategory(categoryUpdatedRequest);
+        try {
+            categoryService.updateCategory(category);
         } catch (Exception exception) {
             redirectAttributes
                     .addFlashAttribute("exceptionEdit", true)

@@ -12,6 +12,4 @@ public interface CategoryRepository extends CrudRepository<Category, UUID> {
     List<Category> findAllById(UUID id);
 
     List<Category> findAll();
-
-    long countByName(String name);
 }
