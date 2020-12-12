@@ -9,6 +9,8 @@
 </head>
 <body>
 <div class="container">
+    <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/questions}">Strona
+        główna</a>
     <fieldset>
         <legend>Odpowiedź</legend>
         <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${exception}">
@@ -29,8 +31,6 @@
         </div>
     </form>
     <!--input end-->
-    <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/questions}">Strona
-        główna</a>
 </div>
 </body>
 </html>

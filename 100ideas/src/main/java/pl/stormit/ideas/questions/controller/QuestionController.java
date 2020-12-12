@@ -2,10 +2,7 @@ package pl.stormit.ideas.questions.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.categories.service.CategoryService;
@@ -48,10 +45,13 @@ public class QuestionController {
         return "question/questionupdate";
     }
 
-    @GetMapping("/category/{id}")
-    public String getQuestionByCategory(Model model, @PathVariable UUID id) {
-        System.out.println(id);
+    @GetMapping("/category")
+    public String getQuestionByCategory(Model model, @RequestParam UUID id) {
+        if (id == null) {
+            return "redirect:";
+        }
         model.addAttribute("questions", questionService.getAllQuestionsByCategoryId(id));
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "question/questions";
     }
 

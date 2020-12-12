@@ -10,8 +10,8 @@
 <div class="container">
     <div class="form-group">
         <form method="get" th:action="@{/questions/category}">
-            <label for="id">Wybierz kategorię</label>
-            <select class="form-control selectpicker" id="id">
+            <label>Wybierz kategorię</label>
+            <select class="form-control selectpicker" th:attr="name='id'">
                 <option value="">Brak wyboru</option>
                 <option th:each="category : ${categories}"
                         th:text="${category.name}"

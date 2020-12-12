@@ -9,6 +9,8 @@
 </head>
 <body>
 <div class="container">
+    <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/questions}">Strona
+        główna</a>
     <fieldset>
         <legend>Pytanie</legend>
         <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${exceptionEdit}">
@@ -69,8 +71,6 @@
             </tr>
             </tbody>
         </table>
-        <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/questions}">Strona
-            główna</a>
     </fieldset>
 </div>
 </body>
