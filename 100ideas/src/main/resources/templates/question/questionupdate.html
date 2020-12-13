@@ -11,8 +11,9 @@
 <div class="container">
     <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/questions}">Strona
         główna</a>
+
     <fieldset>
-        <legend>Pytanie</legend>
+        <legend>Edycja Pytania</legend>
         <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${exceptionEdit}">
             <div th:text="${message}"></div>
             <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -24,6 +25,7 @@
             <tr th:each="question : ${question}">
                 <td>
                     <small class="form-text text-muted" th:text="${'dodano: ' + question.getCreationDate()}"></small>
+                    <small class="form-text text-muted" th:text="${'kategoria: ' + question.getCategoryName()}"></small>
                     <div th:text="${question.name}"></div>
                 </td>
                 <td>
@@ -56,6 +58,15 @@
                                         <textarea class="form-control" id="message-text"
                                                   name="name" th:text="${question.name}"></textarea>
                                         <input name="id" th:value="${question.id}" type="hidden">
+                                        <label>Wybierz kategorię</label>
+                                        <select class="form-control selectpicker" th:attr="name='categoryId'"
+                                                type="text">
+                                            <option value="">Brak wyboru</option>
+                                            <option th:each="category : ${categories}"
+                                                    th:text="${category.name}"
+                                                    th:value="${category.id}">kategoria
+                                            </option>
+                                        </select>
                                     </div>
                                     <div class="modal-footer">
                                         <button class="btn btn-secondary" data-dismiss="modal" type="button">Anuluj

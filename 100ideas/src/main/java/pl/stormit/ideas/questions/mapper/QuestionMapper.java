@@ -29,6 +29,7 @@ public class QuestionMapper {
         questionResponse.setName(question.getName());
         questionResponse.setId(question.getId().toString());
         questionResponse.setCreationDate(question.getCreationDate().toString());
+        questionResponse.setCategoryName(question.getCategory().getName());
         return questionResponse;
     }
 
@@ -49,6 +50,7 @@ public class QuestionMapper {
     public Question mapQuestionUpdatedRequestToQuestion(QuestionUpdatedRequest questionUpdatedRequest) {
         Question question = questionService.getQuestionById(UUID.fromString(questionUpdatedRequest.getId()));
         question.setName(questionUpdatedRequest.getName());
+        question.setCategory(categoryService.getCategoryById(UUID.fromString(questionUpdatedRequest.getCategoryId())));
         return question;
     }
 }

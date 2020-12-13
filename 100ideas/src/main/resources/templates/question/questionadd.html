@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="container">
+    <legend>Dodanie Pytania</legend>
     <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/questions}">Strona
         główna</a>
     <fieldset>
@@ -26,7 +27,14 @@
             <textarea aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1"
                       placeholder="Napisz Pytanie"
                       th:field="*{name}" type="text"></textarea>
-            <input th:attr="name='categoryId'" th:field="*{categoryId}" type="text">
+            <label>Wybierz kategorię</label>
+            <select class="form-control selectpicker" th:attr="name='categoryId'" th:field="*{categoryId}" type="text">
+                <option value="">Brak wyboru</option>
+                <option th:each="category : ${categories}"
+                        th:text="${category.name}"
+                        th:value="${category.id}">kategoria
+                </option>
+            </select>
             <button class="btn btn-primary" type="submit">Zapisz Pytanie</button>
         </div>
     </form>

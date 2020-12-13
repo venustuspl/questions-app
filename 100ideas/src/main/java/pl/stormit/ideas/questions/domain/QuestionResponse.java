@@ -3,7 +3,7 @@ package pl.stormit.ideas.questions.domain;
 public class QuestionResponse {
     private String id;
     private String name;
-    private String categoryId;
+    private String categoryName;
     private String creationDate;
 
     public String getId() {
@@ -22,12 +22,12 @@ public class QuestionResponse {
         this.name = name;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getCreationDate() {

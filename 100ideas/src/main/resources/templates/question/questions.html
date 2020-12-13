@@ -8,10 +8,11 @@
 </head>
 <body>
 <div class="container">
+    <legend>Pytania</legend>
     <div class="form-group">
         <form method="get" th:action="@{/questions/category}">
             <label>Wybierz kategorię</label>
-            <select class="form-control selectpicker" th:attr="name='id'">
+            <select class="form-control selectpicker" th:attr="name='id'" type="text">
                 <option value="">Brak wyboru</option>
                 <option th:each="category : ${categories}"
                         th:text="${category.name}"

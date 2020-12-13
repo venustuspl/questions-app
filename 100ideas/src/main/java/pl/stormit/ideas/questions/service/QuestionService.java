@@ -61,6 +61,7 @@ public class QuestionService {
         }
 
         question.setName(questionToUpdate.getName());
+        question.setCategory(questionToUpdate.getCategory());
 
         return question;
     }

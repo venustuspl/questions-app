@@ -3,6 +3,7 @@ package pl.stormit.ideas.questions.domain;
 public class QuestionUpdatedRequest {
     private String id;
     private String name;
+    private String categoryId;
 
     public String getId() {
         return id;
@@ -18,5 +19,13 @@ public class QuestionUpdatedRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }
