@@ -2,6 +2,7 @@ package pl.stormit.ideas.answers;
 
 import pl.stormit.ideas.answers.domain.Answer;
 import pl.stormit.ideas.answers.domain.dto.AnswerAddRequest;
+import pl.stormit.ideas.answers.domain.dto.AnswerResponse;
 import pl.stormit.ideas.answers.domain.dto.AnswerUpdatedRequest;
 import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.questions.domain.Question;
@@ -9,6 +10,8 @@ import pl.stormit.ideas.questions.service.QuestionService;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
@@ -53,5 +56,9 @@ public abstract class AnswerSubdomainBaseTest {
         answerUpdatedRequest.setId(ID_IN_STRING);
         answerUpdatedRequest.setBody(UPDATED_BODY);
         return answerUpdatedRequest;
+    }
+
+    protected List<AnswerResponse> getAnswerResponseList() {
+        return new ArrayList<>();
     }
 }
