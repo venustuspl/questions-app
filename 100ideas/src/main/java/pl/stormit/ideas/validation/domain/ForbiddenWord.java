@@ -30,4 +30,8 @@ public class ForbiddenWord {
     public void setWord(String word) {
         this.word = word;
     }
+
+    public boolean containsForbiddenWord(String input) {
+        return input.toLowerCase().contains(this.word);
+    }
 }

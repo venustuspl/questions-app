@@ -4,8 +4,9 @@ import org.springframework.stereotype.Component;
 import pl.stormit.ideas.validation.domain.ForbiddenWord;
 import pl.stormit.ideas.validation.service.ForbiddenWordService;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 class ForbiddenWordsValidator implements Validator {
@@ -18,13 +19,14 @@ class ForbiddenWordsValidator implements Validator {
 
     @Override
     public List<String> validate(String input) {
-        List<String> errors = new ArrayList<>();
+        List<String> errors = forbiddenWordService.getAllForbiddenWords()
+                .stream()
+                .filter(forbiddenWord -> forbiddenWord.containsForbiddenWord(input))
+                .map(ForbiddenWord::getWord)
+                .collect(Collectors.toList());
 
-        List<ForbiddenWord> list = forbiddenWordService.getAllForbiddenWords();
-        for (ForbiddenWord forbiddenWord : list) {
-            if (input.toLowerCase().contains(forbiddenWord.getWord())) {
-                errors.add("forbidden word");
-            }
+        if (!errors.isEmpty()) {
+            return Collections.singletonList("forbidden word");
         }
         return errors;
     }
