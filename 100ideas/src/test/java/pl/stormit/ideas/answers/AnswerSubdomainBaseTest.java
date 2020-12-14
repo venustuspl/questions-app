@@ -17,17 +17,17 @@ import java.util.UUID;
 import static org.mockito.Mockito.mock;
 
 public abstract class AnswerSubdomainBaseTest {
-    protected static final UUID ID = UUID.randomUUID();
-    protected static final String ID_IN_STRING = ID.toString();
-    protected static final OffsetDateTime DATE = OffsetDateTime.of(2020, 12, 11, 13, 52, 54, 0, ZoneOffset.UTC);
-    protected static final String DATE_IN_STRING = "11.12.2020 13:52";
-    protected static final String BODY = "answer body";
-    protected static final String UPDATED_BODY = "updated body";
+    public static final UUID ID = UUID.randomUUID();
+    public static final String ID_IN_STRING = ID.toString();
+    public static final OffsetDateTime DATE = OffsetDateTime.of(2020, 12, 11, 13, 52, 54, 0, ZoneOffset.UTC);
+    public static final String DATE_IN_STRING = "11.12.2020 13:52";
+    public static final String BODY = "answer body";
+    public static final String UPDATED_BODY = "updated body";
 
     protected AnswerService answerService = mock(AnswerService.class);
     protected QuestionService questionService = mock(QuestionService.class);
 
-    protected Answer getAnswer() {
+    public static Answer getAnswer() {
         Answer answer = new Answer();
         answer.setBody(BODY);
         answer.setId(ID);
@@ -36,7 +36,7 @@ public abstract class AnswerSubdomainBaseTest {
         return answer;
     }
 
-    protected Question getQuestion() {
+    public static Question getQuestion() {
         Question question = new Question();
         question.setId(ID);
         question.setName(BODY);
@@ -44,21 +44,21 @@ public abstract class AnswerSubdomainBaseTest {
         return question;
     }
 
-    protected AnswerAddRequest getAnswerAddRequest() {
+    public static AnswerAddRequest getAnswerAddRequest() {
         AnswerAddRequest answerAddRequest = new AnswerAddRequest();
         answerAddRequest.setBody(BODY);
         answerAddRequest.setQuestionId(ID_IN_STRING);
         return answerAddRequest;
     }
 
-    protected AnswerUpdatedRequest getAnswerUpdatedRequest() {
+    public static AnswerUpdatedRequest getAnswerUpdatedRequest() {
         AnswerUpdatedRequest answerUpdatedRequest = new AnswerUpdatedRequest();
         answerUpdatedRequest.setId(ID_IN_STRING);
         answerUpdatedRequest.setBody(UPDATED_BODY);
         return answerUpdatedRequest;
     }
 
-    protected List<AnswerResponse> getAnswerResponseList() {
+    public static List<AnswerResponse> getAnswerResponseList() {
         return new ArrayList<>();
     }
 }
