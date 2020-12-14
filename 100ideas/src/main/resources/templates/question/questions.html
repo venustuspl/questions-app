@@ -30,7 +30,9 @@
             </td></tr>
         <tr th:each="question : ${questions}">
             <td th:text="${question.name}"></td>
-            <td><a th:href="@{/questions/__${question.id}__}">edytuj pytanie</a></td>
+            <td th:if="${question.getCreationDate() > offsetDateTime}"><a th:href="@{/questions/__${question.id}__}">edytuj
+                pytanie</a>
+            </td>
             <td><a th:href="@{/answers/__${question.id}__}">szczegóły</a></td>
         </tr>
         </tbody>

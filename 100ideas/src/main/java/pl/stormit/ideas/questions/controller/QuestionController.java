@@ -12,6 +12,7 @@ import pl.stormit.ideas.questions.domain.QuestionUpdatedRequest;
 import pl.stormit.ideas.questions.mapper.QuestionMapper;
 import pl.stormit.ideas.questions.service.QuestionService;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Controller
@@ -33,6 +34,7 @@ public class QuestionController {
     public String getQuestions(Model model) {
         model.addAttribute("questions", questionService.getAllQuestions());
         model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("offsetDateTime", OffsetDateTime.now().minusSeconds(60L));
         return "question/questions";
     }
 
