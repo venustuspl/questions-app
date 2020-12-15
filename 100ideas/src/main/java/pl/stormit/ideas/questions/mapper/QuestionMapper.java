@@ -28,7 +28,7 @@ public class QuestionMapper {
         QuestionResponse questionResponse = new QuestionResponse();
         questionResponse.setName(question.getName());
         questionResponse.setId(question.getId().toString());
-        questionResponse.setCreationDate(question.getCreationDate().toString());
+        questionResponse.setCreationDate(question.getCreationDate());
         questionResponse.setCategoryName(question.getCategory().getName());
         return questionResponse;
     }

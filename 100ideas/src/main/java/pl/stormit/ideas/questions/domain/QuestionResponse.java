@@ -1,10 +1,12 @@
 package pl.stormit.ideas.questions.domain;
 
+import java.time.OffsetDateTime;
+
 public class QuestionResponse {
     private String id;
     private String name;
     private String categoryName;
-    private String creationDate;
+    private OffsetDateTime creationDate;
 
     public String getId() {
         return id;
@@ -30,11 +32,11 @@ public class QuestionResponse {
         this.categoryName = categoryName;
     }
 
-    public String getCreationDate() {
+    public OffsetDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(OffsetDateTime creationDate) {
         this.creationDate = creationDate;
     }
 }

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.stormit.ideas.answers.service.AnswerService;
 import pl.stormit.ideas.categories.service.CategoryService;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.domain.QuestionRequest;
@@ -18,13 +17,11 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/questions")
 public class QuestionController {
-    private final AnswerService answerService;
     private final QuestionService questionService;
     private final QuestionMapper questionMapper;
     private final CategoryService categoryService;
 
-    public QuestionController(AnswerService answerService, QuestionService questionService, QuestionMapper questionMapper, CategoryService categoryService) {
-        this.answerService = answerService;
+    public QuestionController(QuestionService questionService, QuestionMapper questionMapper, CategoryService categoryService) {
         this.questionService = questionService;
         this.questionMapper = questionMapper;
         this.categoryService = categoryService;
@@ -32,7 +29,7 @@ public class QuestionController {
 
     @GetMapping
     public String getQuestions(Model model) {
-        model.addAttribute("questions", questionService.getAllQuestions());
+        model.addAttribute("questions", questionMapper.mapQuestionsToQuestionResponseList(questionService.getAllQuestions()));
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("offsetDateTime", OffsetDateTime.now().minusSeconds(60L));
         return "question/questions";
@@ -53,7 +50,7 @@ public class QuestionController {
         if (id == null) {
             return "redirect:";
         }
-        model.addAttribute("questions", questionService.getAllQuestionsByCategoryId(id));
+        model.addAttribute("questions", questionMapper.mapQuestionsToQuestionResponseList(questionService.getAllQuestionsByCategoryId(id)));
         model.addAttribute("categories", categoryService.getAllCategories());
         return "question/questions";
     }
