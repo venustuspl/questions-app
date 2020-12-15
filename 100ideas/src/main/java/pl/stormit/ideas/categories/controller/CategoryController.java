@@ -37,7 +37,6 @@ public class CategoryController {
         model.addAttribute("categories", categoryMapper.mapToCategoryResponseList(categoryService.getAllCategoriesByCategoryId(id)));
         model.addAttribute("categoryToAdd", new CategoryAddedRequest());
         model.addAttribute("categoryToUpdate", new CategoryUpdatedRequest());
-
         model.addAttribute("exception", model.containsAttribute("exception"));
         model.addAttribute("exceptionEdit", model.containsAttribute("exceptionEdit"));
         return "category/categories";
@@ -93,7 +92,7 @@ public class CategoryController {
             redirectAttributes
                     .addFlashAttribute("exceptionEdit", true)
                     .addFlashAttribute("message", exception.getMessage());
-            return "redirect:/categories/" + category.getId();
+            return "redirect:/categories/update";
         }
         return "redirect:/categories/";
     }

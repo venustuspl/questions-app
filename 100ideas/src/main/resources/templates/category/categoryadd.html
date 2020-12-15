@@ -10,9 +10,8 @@
 <div class="container">
     <form method="post" th:action="@{/categories/add}" th:object="${categoryToAdd}">
         <div class="form-group">
-            <textarea
-                    placeholder="Dodaj kategorię"
-                    th:field="*{name}" type="text"></textarea>
+            <legend>Dodaj kategorię</legend>
+            <label>Wprowadź nową kategorię <input type="text"></label>
             <button class="btn btn-primary" type="submit">Zapisz</button>
         </div>
     </form>
