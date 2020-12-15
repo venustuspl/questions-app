@@ -36,6 +36,12 @@ public abstract class AnswerSubdomainBaseTest {
         return answer;
     }
 
+    public static Answer getAnswerToUpdate() {
+        Answer answer = getAnswer();
+        answer.setCreationDate(OffsetDateTime.now());
+        return answer;
+    }
+
     public static Question getQuestion() {
         Question question = new Question();
         question.setId(ID);
