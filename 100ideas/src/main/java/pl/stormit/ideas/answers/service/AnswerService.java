@@ -46,7 +46,7 @@ public class AnswerService {
         Answer answer = getAnswerById(answerToUpdate.getId());
         checkIfAnswerIsNotTooOld(answer, "The Answer is too old to be updated");
         answer.setBody(answerToUpdate.getBody());
-        return answer;
+        return answerRepository.save(answer);
     }
 
     @Transactional
