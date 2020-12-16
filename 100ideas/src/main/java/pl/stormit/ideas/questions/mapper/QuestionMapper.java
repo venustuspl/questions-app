@@ -1,7 +1,6 @@
 package pl.stormit.ideas.questions.mapper;
 
 import org.springframework.stereotype.Component;
-import pl.stormit.ideas.categories.repository.CategoryRepository;
 import pl.stormit.ideas.categories.service.CategoryService;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.domain.QuestionRequest;
@@ -18,7 +17,7 @@ public class QuestionMapper {
     private final QuestionService questionService;
     private final CategoryService categoryService;
 
-    public QuestionMapper(QuestionService questionService, CategoryService categoryService, CategoryRepository categoryRepository) {
+    public QuestionMapper(QuestionService questionService, CategoryService categoryService) {
         this.questionService = questionService;
         this.categoryService = categoryService;
     }
