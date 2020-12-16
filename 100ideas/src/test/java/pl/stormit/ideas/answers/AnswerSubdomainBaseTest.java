@@ -5,6 +5,7 @@ import pl.stormit.ideas.answers.domain.dto.AnswerAddRequest;
 import pl.stormit.ideas.answers.domain.dto.AnswerResponse;
 import pl.stormit.ideas.answers.domain.dto.AnswerUpdatedRequest;
 import pl.stormit.ideas.answers.service.AnswerService;
+import pl.stormit.ideas.categories.domain.Category;
 import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.service.QuestionService;
 
@@ -47,7 +48,15 @@ public abstract class AnswerSubdomainBaseTest {
         question.setId(ID);
         question.setName(BODY);
         question.setCreationDate(DATE);
+        question.setCategory(getCategory());
         return question;
+    }
+
+    private static Category getCategory() {
+        Category category = new Category();
+        category.setId(UUID.randomUUID());
+        category.setName("Category name");
+        return category;
     }
 
     public static AnswerAddRequest getAnswerAddRequest() {
