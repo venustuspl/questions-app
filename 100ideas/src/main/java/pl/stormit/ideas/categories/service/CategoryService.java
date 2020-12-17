@@ -61,6 +61,13 @@ public class CategoryService {
                 );
     }
 
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Category object with name " + name + " does not exist in DB")
+                );
+    }
+
     public List<Category> getAllQuestions() {
         return categoryRepository.findAll();
     }

@@ -8,12 +8,12 @@
 </head>
 <body>
 <div class="container">
-
     <fieldset>
         <div class="form-group">
             <form method="post" th:action="@{/categories/update}" th:object="${categoryToUpdate}">
                 <legend>Edytuj kategorię</legend>
-                <label>Wprowadź poprawną nazwę kategorii <input type="text"></label>
+                <label>Wprowadź poprawną nazwę kategorii</label>
+                <input name="name" type="text">
                 <button class="btn btn-primary" type="submit">Zapisz</button>
             </form>
         </div>
@@ -21,8 +21,6 @@
     <!--input end-->
     <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/categories}">Strona
         główna</a>
-</div>
-</form>
 </div>
 </body>
 </html>

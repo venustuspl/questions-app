@@ -40,7 +40,7 @@ public class CategoryMapper {
     }
 
     public Category mapCategoryUpdatedRequestToCategory(CategoryUpdatedRequest categoryUpdatedRequest) {
-        Category category = categoryService.getCategoryById(UUID.fromString(categoryUpdatedRequest.getId()));
+        Category category = categoryService.getCategoryByName(categoryUpdatedRequest.getName());
         category.setName(categoryUpdatedRequest.getName());
         return category;
     }
