@@ -9,9 +9,12 @@
 </head>
 <body>
 <div class="container">
-    <legend>Dodanie Pytania</legend>
     <a align="right" aria-pressed="true" class="btn btn-primary active" role="button" th:href="@{/questions}">Strona
         główna</a>
+    <br>
+    <br>
+    <h1>Dodanie Pytania</h1>
+    <br>
     <fieldset>
         <legend>Odpowiedź</legend>
         <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${exception}">
@@ -28,13 +31,15 @@
                       placeholder="Napisz Pytanie"
                       th:field="*{name}" type="text"></textarea>
             <label>Wybierz kategorię</label>
+            <br>
             <select class="form-control selectpicker" th:attr="name='categoryId'" th:field="*{categoryId}" type="text">
-                <option value="">Brak wyboru</option>
+                <option value="">Wyczyść</option>
                 <option th:each="category : ${categories}"
                         th:text="${category.name}"
                         th:value="${category.id}">kategoria
                 </option>
             </select>
+            <br>
             <button class="btn btn-primary" type="submit">Zapisz Pytanie</button>
         </div>
     </form>

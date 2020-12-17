@@ -57,17 +57,16 @@ public class QuestionController {
 
     @PostMapping("/update")
     public String updateQuestion(QuestionUpdatedRequest questionUpdatedRequest, RedirectAttributes redirectAttributes) {
-        Question question = questionMapper.mapQuestionUpdatedRequestToQuestion(questionUpdatedRequest);
-
         try {
+            Question question = questionMapper.mapQuestionUpdatedRequestToQuestion(questionUpdatedRequest);
             questionService.updateQuestion(question);
         } catch (Exception exception) {
             redirectAttributes
                     .addFlashAttribute("exceptionEdit", true)
                     .addFlashAttribute("message", exception.getMessage());
-            return "redirect:/questions/" + question.getId();
+            return "redirect:/questions/" + questionUpdatedRequest.getId();
         }
-        return "redirect:/questions/" + question.getId();
+        return "redirect:/questions/" + questionUpdatedRequest.getId();
     }
 
     @GetMapping("/add")
