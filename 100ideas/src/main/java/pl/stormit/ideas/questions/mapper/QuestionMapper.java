@@ -22,7 +22,6 @@ public class QuestionMapper {
         this.categoryService = categoryService;
     }
 
-
     public QuestionResponse mapQuestionToQuestionResponse(Question question) {
         QuestionResponse questionResponse = new QuestionResponse();
         questionResponse.setName(question.getName());
