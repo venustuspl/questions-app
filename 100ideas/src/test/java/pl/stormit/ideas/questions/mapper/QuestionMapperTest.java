@@ -51,7 +51,7 @@ class QuestionMapperTest {
         Assertions.assertAll(
                 () -> Assertions.assertEquals(ID.toString(), questionResponse.getId()),
                 () -> Assertions.assertEquals(NAME, questionResponse.getName()),
-                () -> Assertions.assertEquals(DATE_IN_STRING, questionResponse.getCreationDate()),
+                () -> Assertions.assertEquals(DATE_IN_STRING, String.valueOf(questionResponse.getCreationDate())),
                 () -> Assertions.assertNotNull(questionResponse.getCategoryName()));
     }
 
