@@ -33,5 +33,3 @@ CREATE TABLE forbidden_words (
     word text,
     PRIMARY KEY (id)
 );
-
-CREATE INDEX word_index ON forbidden_words(word);
