@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS categories, questions, answers;
+DROP TABLE IF EXISTS categories, questions, answers, forbidden_words;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -26,4 +26,10 @@ CREATE TABLE answers (
 	creation_date timestamptz(0) NULL DEFAULT (CURRENT_DATE + CURRENT_TIME),
 	PRIMARY KEY (id),
 	FOREIGN KEY (question_id) REFERENCES questions(id)
+);
+
+CREATE TABLE forbidden_words (
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    word text,
+    PRIMARY KEY (id)
 );
