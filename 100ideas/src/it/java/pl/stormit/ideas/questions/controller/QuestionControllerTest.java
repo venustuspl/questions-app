@@ -47,7 +47,7 @@ class QuestionControllerTest {
     protected static final String ID_IN_STRING = ID.toString();
     protected static final UUID CATEGORY_ID = UUID.randomUUID();
     protected static final String CATEGORY_ID_IN_STRING = ID.toString();
-    protected static final String BODY = "Question name";
+    protected static final String NAME = "Question name";
     protected static final OffsetDateTime DATE = OffsetDateTime.of(2020, 12, 11, 13, 52, 54, 0, ZoneOffset.UTC);
     protected static final String DATE_IN_STRING = "2020-12-11T13:52:54Z";
 
@@ -63,8 +63,17 @@ class QuestionControllerTest {
         return new QuestionRequest();
     }
 
+    public static QuestionUpdatedRequest getQuestionUpdatedRequest() {
+        QuestionUpdatedRequest questionUpdatedRequest = new QuestionUpdatedRequest();
+        questionUpdatedRequest.setId(ID_IN_STRING);
+        questionUpdatedRequest.setName(NAME);
+        questionUpdatedRequest.setCategoryId(CATEGORY_ID_IN_STRING);
+
+        return questionUpdatedRequest;
+    }
+
     @Test
-    void shouldReturnMainQuestionView() throws Exception {
+    void shouldReturnMainQuestionsView() throws Exception {
         //given
         when(questionMapper.mapQuestionsToQuestionResponseList(questionService.getAllQuestions())).thenReturn(getQuestionResponseList());
         when(categoryService.getAllCategories()).thenReturn(getCategories());
@@ -126,7 +135,7 @@ class QuestionControllerTest {
     }
 
     @Test
-    void shouldReturnMainViewAfterAddingQuestion() throws Exception {
+    void shouldReturnMainQuestionsViewAfterAddingQuestion() throws Exception {
         //given
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/questions/add")
@@ -143,7 +152,7 @@ class QuestionControllerTest {
     }
 
     @Test
-    void shouldReturnMainViewWithAttributesWhenAddingQuestionFailed() throws Exception {
+    void shouldReturnQuestionAddViewWithAttributesWhenAddingQuestionFailed() throws Exception {
         //given
         doThrow(new RuntimeException("Test message")).when(questionMapper)
                 .mapQuestionRequestToQuestion(any(QuestionRequest.class));
@@ -163,5 +172,28 @@ class QuestionControllerTest {
                 .andExpect(flash().attribute("exception", true))
                 .andExpect(flash().attribute("message", "Test message"));
     }
+
+    @Test
+    void shouldReturnQuestionUpdateViewWithAttributesWhenUpdatingQuestionFailed() throws Exception {
+        //given
+        doThrow(new RuntimeException("Test message")).when(questionMapper)
+                .mapQuestionUpdatedRequestToQuestion(any(QuestionUpdatedRequest.class));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post("/questions/update")
+                .param("questionUpdateRequest", String.valueOf(getQuestionUpdatedRequest()));
+
+        //when
+        ResultActions result = mockMvc.perform(request);
+
+        //then
+        result
+                .andExpect(status().is3xxRedirection())
+
+                .andExpect(flash().attributeCount(2))
+                .andExpect(flash().attribute("exceptionEdit", true))
+                .andExpect(flash().attribute("message", "Test message"));
+    }
+
 
 }
