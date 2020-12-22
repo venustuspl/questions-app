@@ -11,12 +11,14 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.stormit.ideas.categories.domain.Category;
 import pl.stormit.ideas.categories.service.CategoryService;
+import pl.stormit.ideas.questions.domain.QuestionRequest;
 import pl.stormit.ideas.questions.domain.QuestionResponse;
 import pl.stormit.ideas.questions.domain.QuestionUpdatedRequest;
 import pl.stormit.ideas.questions.mapper.QuestionMapper;
 import pl.stormit.ideas.questions.service.QuestionService;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,8 +41,13 @@ class QuestionControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    public static final UUID ID = UUID.randomUUID();
-    public static final String ID_IN_STRING = ID.toString();
+    protected static final UUID ID = UUID.randomUUID();
+    protected static final String ID_IN_STRING = ID.toString();
+    protected static final UUID CATEGORY_ID = UUID.randomUUID();
+    protected static final String CATEGORY_ID_IN_STRING = ID.toString();
+    protected static final String BODY = "Question name";
+    protected static final OffsetDateTime DATE = OffsetDateTime.of(2020, 12, 11, 13, 52, 54, 0, ZoneOffset.UTC);
+    protected static final String DATE_IN_STRING = "2020-12-11T13:52:54Z";
 
     public static List<QuestionResponse> getQuestionResponseList() {
         return new ArrayList<>();
@@ -48,6 +55,10 @@ class QuestionControllerTest {
 
     public static List<Category> getCategories() {
         return new ArrayList<>();
+    }
+
+    public static QuestionRequest getQuestionRequest() {
+        return new QuestionRequest();
     }
 
     @Test
@@ -111,4 +122,23 @@ class QuestionControllerTest {
                 .andExpect(model().attribute("exception", false))
                 .andExpect(model().attribute("exceptionEdit", false));
     }
+
+    @Test
+    void shouldReturnMainViewAfterAddingQuestion() throws Exception {
+        //given
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post("/questions/add")
+                .param("questionRequest", String.valueOf(getQuestionRequest()));
+
+        //when
+        ResultActions result = mockMvc.perform(request);
+
+        //then
+        result
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/questions/"))
+                .andExpect(flash().attributeCount(0));
+    }
+
+
 }
