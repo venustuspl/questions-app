@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.emptyCollectionOf;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -140,5 +142,26 @@ class QuestionControllerTest {
                 .andExpect(flash().attributeCount(0));
     }
 
+    @Test
+    void shouldReturnMainViewWithAttributesWhenAddingQuestionFailed() throws Exception {
+        //given
+        doThrow(new RuntimeException("Test message")).when(questionMapper)
+                .mapQuestionRequestToQuestion(any(QuestionRequest.class));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post("/questions/add")
+                .param("questionRequest", String.valueOf(getQuestionRequest()));
+
+        //when
+        ResultActions result = mockMvc.perform(request);
+
+        //then
+        result
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/questions/add"))
+                .andExpect(flash().attributeCount(2))
+                .andExpect(flash().attribute("exception", true))
+                .andExpect(flash().attribute("message", "Test message"));
+    }
 
 }
