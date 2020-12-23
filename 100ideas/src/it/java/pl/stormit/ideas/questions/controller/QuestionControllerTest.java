@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import pl.stormit.ideas.categories.domain.Category;
 import pl.stormit.ideas.categories.service.CategoryService;
+import pl.stormit.ideas.questions.domain.Question;
 import pl.stormit.ideas.questions.domain.QuestionRequest;
 import pl.stormit.ideas.questions.domain.QuestionResponse;
 import pl.stormit.ideas.questions.domain.QuestionUpdatedRequest;
@@ -48,6 +49,7 @@ class QuestionControllerTest {
     protected static final UUID CATEGORY_ID = UUID.randomUUID();
     protected static final String CATEGORY_ID_IN_STRING = ID.toString();
     protected static final String NAME = "Question name";
+    protected static final String CATEGORY_NAME = "Category name";
     protected static final OffsetDateTime DATE = OffsetDateTime.of(2020, 12, 11, 13, 52, 54, 0, ZoneOffset.UTC);
     protected static final String DATE_IN_STRING = "2020-12-11T13:52:54Z";
 
@@ -57,6 +59,24 @@ class QuestionControllerTest {
 
     public static List<Category> getCategories() {
         return new ArrayList<>();
+    }
+
+    public static Category getCategory() {
+        Category category = new Category();
+        category.setId(CATEGORY_ID);
+        category.setName(CATEGORY_NAME);
+
+        return category;
+    }
+
+    public static Question getQuestion() {
+        Question question = new Question();
+        question.setId(ID);
+        question.setName(NAME);
+        question.setCategory(getCategory());
+        question.setCreationDate(DATE);
+
+        return question;
     }
 
     public static QuestionRequest getQuestionRequest() {
@@ -176,8 +196,9 @@ class QuestionControllerTest {
     @Test
     void shouldReturnQuestionUpdateViewWithAttributesWhenUpdatingQuestionFailed() throws Exception {
         //given
-        doThrow(new RuntimeException("Test message")).when(questionMapper)
-                .mapQuestionUpdatedRequestToQuestion(any(QuestionUpdatedRequest.class));
+        when(questionMapper.mapQuestionUpdatedRequestToQuestion(any(QuestionUpdatedRequest.class))).thenReturn(getQuestion());
+        doThrow(new RuntimeException("Test message")).when(questionService)
+                .updateQuestion(any(Question.class));
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/questions/update")
@@ -189,11 +210,32 @@ class QuestionControllerTest {
         //then
         result
                 .andExpect(status().is3xxRedirection())
-
+                .andExpect(view().name("redirect:/questions/" + ID_IN_STRING))
                 .andExpect(flash().attributeCount(2))
                 .andExpect(flash().attribute("exceptionEdit", true))
                 .andExpect(flash().attribute("message", "Test message"));
     }
 
+    @Test
+    void shouldReturnQuestionViewWithAttributesWhenDeletingQuestionFailed() throws Exception {
+        //given
+        when(questionService.getQuestionById(any(UUID.class))).thenReturn(getQuestion());
+        doThrow(new RuntimeException("Test message")).when(questionService)
+                .deleteQuestion(any(Question.class));
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/questions/" + ID_IN_STRING + "/delete");
+
+        //when
+        ResultActions result = mockMvc.perform(request);
+
+        //then
+        result
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/questions/" + ID_IN_STRING))
+                .andExpect(flash().attributeCount(2))
+                .andExpect(flash().attribute("exceptionEdit", true))
+                .andExpect(flash().attribute("message", "Test message"));
+    }
 
 }
