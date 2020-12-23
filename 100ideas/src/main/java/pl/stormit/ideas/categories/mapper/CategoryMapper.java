@@ -35,7 +35,7 @@ public class CategoryMapper {
     public Category mapCategoryRequestToCategory(CategoryAddedRequest categoryAddedRequest) {
         Category category = new Category();
         category.setName(categoryAddedRequest.getName());
-        category.setParent(categoryService.getCategoryById(UUID.fromString(categoryAddedRequest.getCategoryId())));
+        category.setParent(categoryService.getCategoryById(UUID.fromString(categoryAddedRequest.getId())));
         return category;
     }
 
@@ -43,6 +43,12 @@ public class CategoryMapper {
         Category category = categoryService.getCategoryByName(categoryUpdatedRequest.getName());
         category.setName(categoryUpdatedRequest.getName());
         return category;
+    }
+
+    public List<CategoryResponse> mapCategoryToCategoryResponseList(List<Category> categories) {
+        return categories.stream()
+                .map(this::mapToCategoryResponse)
+                .collect(Collectors.toList());
     }
 }
 

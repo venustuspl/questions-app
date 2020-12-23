@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <title>Category</title>
     <script src="/webjars/jquery/jquery.min.js"></script>
     <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
@@ -11,7 +12,7 @@
     <form method="post" th:action="@{/categories/add}" th:object="${categoryToAdd}">
         <div class="form-group">
             <legend>Dodaj kategorię</legend>
-            <label>Wprowadź nową kategorię <input type="text"></label>
+            <label>Wprowadź nową kategorię <input type="text" th:field="*{name}"></label>
             <button class="btn btn-primary" type="submit">Zapisz</button>
         </div>
     </form>

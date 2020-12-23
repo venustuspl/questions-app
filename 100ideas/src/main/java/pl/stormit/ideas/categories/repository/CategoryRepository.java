@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface CategoryRepository extends CrudRepository<Category, UUID> {
     List<Category> findAllById(UUID id);
 
-    List<Category> findAll(String nme);
+    List<Category> findAll();
 
     Optional<Category> findByName(String name);
 }

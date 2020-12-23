@@ -28,18 +28,19 @@ public class CategoryController {
 
     @GetMapping
     public String getCategories(Model model) {
-        model.addAttribute("categories", categoryService.getAllQuestions());
+        model.addAttribute("category", categoryMapper.mapCategoryToCategoryResponseList(categoryService.getAllCategories()));
+        model.addAttribute("categories", categoryService.getAllCategories());
         return "category/categories";
     }
 
     @GetMapping("/{id}")
     public String getCategory(Model model, @PathVariable UUID id) {
-        model.addAttribute("categories", categoryMapper.mapToCategoryResponseList(categoryService.getAllCategoriesByCategoryId(id)));
+        model.addAttribute("categories", categoryMapper.mapToCategoryResponse(categoryService.getCategoryById(id)));
         model.addAttribute("categoryToAdd", new CategoryAddedRequest());
         model.addAttribute("categoryToUpdate", new CategoryUpdatedRequest());
         model.addAttribute("exception", model.containsAttribute("exception"));
         model.addAttribute("exceptionEdit", model.containsAttribute("exceptionEdit"));
-        return "category/categories";
+        return "category/categoryupdate";
     }
 
     @GetMapping("/add")
@@ -85,15 +86,15 @@ public class CategoryController {
 
     @PostMapping("/update")
     public String updateCategory(CategoryUpdatedRequest categoryUpdatedRequest, RedirectAttributes redirectAttributes) {
-        Category category = categoryMapper.mapCategoryUpdatedRequestToCategory(categoryUpdatedRequest);
         try {
+            Category category = categoryMapper.mapCategoryUpdatedRequestToCategory(categoryUpdatedRequest);
             categoryService.updateCategory(category);
         } catch (Exception exception) {
             redirectAttributes
                     .addFlashAttribute("exceptionEdit", true)
                     .addFlashAttribute("message", exception.getMessage());
-            return "redirect:/categories/update";
+            return "redirect:/categories/update" + categoryUpdatedRequest.getId();
         }
-        return "redirect:/categories/";
+        return "redirect:/categories/" + categoryUpdatedRequest.getId();
     }
 }

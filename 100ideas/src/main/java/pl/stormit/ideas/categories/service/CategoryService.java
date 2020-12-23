@@ -68,8 +68,7 @@ public class CategoryService {
                 );
     }
 
-    public List<Category> getAllQuestions() {
+    public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
-
 }
