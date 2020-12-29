@@ -15,6 +15,14 @@ public class ForbiddenWord {
     private UUID id;
     private String word;
 
+    public ForbiddenWord() {
+
+    }
+
+    public ForbiddenWord(String word) {
+        this.word = word;
+    }
+
     public UUID getId() {
         return id;
     }
