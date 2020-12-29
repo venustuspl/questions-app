@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.stormit.ideas.categories.domain.Category;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -13,5 +14,5 @@ public interface CategoryRepository extends CrudRepository<Category, UUID> {
 
     List<Category> findAll();
 
-    long countByName(String name);
+    Optional<Category> findByName(String name);
 }

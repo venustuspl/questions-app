@@ -26,6 +26,15 @@ public class CategoryService {
     }
 
     @Transactional
+    public Category updateCategory(Category categoryToUpdate) {
+        UUID categoryToUpdatedId = categoryToUpdate.getId();
+        Category category = categoryRepository.findById(categoryToUpdatedId)
+                .orElseThrow(() -> new NoSuchElementException("The Question object with id " + categoryToUpdatedId + " does not exist in DB"));
+        category.setName(categoryToUpdate.getName());
+        return category;
+    }
+
+    @Transactional
     public void deleteCategory(Category categoryToDelete) {
         UUID categoryToDeleteId = categoryToDelete.getId();
         if (categoryToDelete.getId() == null) {
@@ -49,6 +58,13 @@ public class CategoryService {
         return categoryRepository.findById(id)
                 .orElseThrow(() ->
                         new NoSuchElementException("The Category object with id " + id + " does not exist in DB")
+                );
+    }
+
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() ->
+                        new NoSuchElementException("The Category object with name " + name + " does not exist in DB")
                 );
     }
 

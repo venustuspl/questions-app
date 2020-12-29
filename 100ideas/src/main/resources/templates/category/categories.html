@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <td>
+            <td><a th:href="@{/categories/add}">dodaj kategorię</a></td>
+        </tr>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.name}"></td>
+            <td><a th:href="@{/categories/update}">edytuj kategorię</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
